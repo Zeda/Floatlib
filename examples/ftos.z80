@@ -1,0 +1,53 @@
+_PutS   = 450Ah
+_NewLine= 452Eh
+#include "header.z80"
+    call iconstSingle \ .db 0   ;load the pointer for pi
+    ex de,hl                    ;Now DE is the pointer to pi
+    call iconstSingle \ .db 1   ;Now HL is the pointer to e
+    ld bc,scrap     ;Don't need to keep it, so store it back to scrap
+    call powSingle  ;e^pi
+    ld h,b          ;The result is pointed to by BC
+    ld l,c          ;And why not just store the string back to scrap again?
+    call single2str ;Converts the float to a string
+    bcall(_PutS)    ;String is at scrap, already pointed to by HL.
+    bcall(_NewLine)    ;String is at scrap, already pointed to by HL.
+
+    call iconstSingle \ .db 0   ;load the pointer for pi
+    ex de,hl                    ;Now DE is the pointer to pi
+    call iconstSingle \ .db 1   ;Now HL is the pointer to e
+    ld bc,scrap     ;Don't need to keep it, so store it back to scrap
+    call subSingle  ;e^pi
+    ld h,b          ;The result is pointed to by BC
+    ld l,c          ;And why not just store the string back to scrap again?
+    call single2str ;Converts the float to a string
+    bcall(_PutS)    ;String is at scrap, already pointed to by HL.
+    bcall(_NewLine)    ;String is at scrap, already pointed to by HL.
+
+
+    call iconstSingle \ .db 0   ;load the pointer for pi
+    ex de,hl                    ;Now DE is the pointer to pi
+    call iconstSingle \ .db 1   ;Now HL is the pointer to e
+    ld bc,scrap     ;Don't need to keep it, so store it back to scrap
+    call divSingle  ;e/pi
+    ld h,b          ;The result is pointed to by BC
+    ld l,c          ;And why not just store the string back to scrap again?
+    call single2str ;Converts the float to a string
+    bcall(_PutS)    ;String is at scrap, already pointed to by HL.
+    bcall(_NewLine)    ;String is at scrap, already pointed to by HL.
+
+
+
+    call iconstSingle \ .db 0   ;load the pointer for pi
+    ex de,hl                    ;Now DE is the pointer to pi
+    call iconstSingle \ .db 1   ;Now HL is the pointer to e
+    ld bc,scrap     ;Don't need to keep it, so store it back to scrap
+    call mulSingle  ;e/pi
+    ld h,b          ;The result is pointed to by BC
+    ld l,c          ;And why not just store the string back to scrap again?
+    call single2str ;Converts the float to a string
+    bcall(_PutS)    ;String is at scrap, already pointed to by HL.
+    bcall(_NewLine)    ;String is at scrap, already pointed to by HL.
+
+
+
+    ret

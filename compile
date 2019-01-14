@@ -1,0 +1,10 @@
+#!/bin/bash
+
+cd src
+echo -e "\e[1m\e[37mAssembling App\e[0m"
+spasm -Disapp -Dfast main.z80 ../bin/Floatlib_APP.8xk
+cd ..
+#echo -e "\e[1m\e[37mAssembling ASMComp Equate File\e[0m"
+#python asmcompify.py
+#spasm asmcompequ.z80 FLOATEQU.8xv
+#mv FLOATEQU.8xv bin/floatequ.8xv

@@ -1,0 +1,106 @@
+borchardtgauss_inv:
+;b=a
+;a=(a+g)/2
+;c=.5(a+g)
+;g=.5(c+a*g/c) ;full precision divide
+;c=a
+;b = a-b/4
+;a=(a+g)/2
+;c = a-c/4-b/16
+;return (x-1)(1-1/4)(1-1/16)/c
+  push hl
+  push de
+  push bc
+  push af
+  push bc
+  call +_
+  pop de
+  ld h,b
+  ld l,c
+  ldi
+  ldi
+  ldi
+  ldi
+  pop af
+  pop bc
+  pop de
+  pop hl
+  ret
+_:
+  push hl     ;b=a
+  push de     ;
+  ld de,var_b ;
+  ldi
+  ldi
+  ldi
+  ldi
+  pop hl
+  pop de
+  ld bc,var_a
+  call ameanSingle
+  ld h,b
+  ld l,c
+  ld bc,var_c
+  call ameanSingle
+  ld b,d    ;g
+  ld c,e
+  call mulSingle    ;a*g -> g
+  ex de,hl
+  ld de,var_c
+  call divSingle    ;g/c -> g
+  call ameanSingle
+  ld hl,var_a       ;c=a
+  ld de,var_c       ;
+  ldi
+  ldi
+  ldi
+  ldi
+  ld a,(var_b+3)  ;b/4
+  sub 2
+  jr nc,+_
+  xor a
+  ld (var_b+2),a
+_:
+  ld (var_b+3),a
+  ;BC points to var_a
+  ld h,b
+  ld l,c
+  ld de,var_b
+  ld b,d
+  ld c,e
+  call subSingle
+  ld de,var_g
+  ld b,h
+  ld c,l
+  call ameanSingle
+
+;DE points to B
+;HL points to A
+;BC points to B
+  ld a,(var_b+3)  ;b/16
+  sub 4
+  jr nc,+_
+  xor a
+  ld (var_b+2),a
+_:
+  ld (var_b+3),a
+
+  dec de
+  ld a,(de)  ;c/4
+  sub 2
+  jr nc,+_
+  xor a
+  ld (var_c+2),a
+_:
+  ld (de),a
+  inc de
+
+  call subSingle
+  ld de,var_c
+  call subSingle
+  ld hl,const_45_div_64
+  ld d,b
+  ld e,c
+  jp divSingle
+const_45_div_64:
+  .db $00,$00,$34,$7F  ;.703125

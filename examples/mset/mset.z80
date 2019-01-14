@@ -1,0 +1,141 @@
+#include "header.z80"
+cx   = vars
+cy   = vars+4
+delta= vars+8
+zx   = vars+12
+zy   = vars+16
+zx2  = vars+20
+zy2  = vars+24
+x    = vars+28
+y    = vars+29
+bufptr=vars+30
+mask = vars+32
+lcd_y= vars+33
+tmp  = vars+34
+gbuf = 9340h
+maxiter=16
+start:
+    in a,(2)
+    add a,a
+    sbc a,a
+    and 3
+    out (20h),a
+    call init   ;initialize keyboard, LCD, variables
+forx:
+    ld a,64     ;set Y counter to 64
+    ld (y),a
+    ffmov(cy_init,cy)
+    ffmov(delta_init,delta)
+fory:
+    in a,(1)    ;poll the keyboard for [Clear]
+    and 40h
+    ret z
+    in a,(4)    ;poll for [ON]
+    and 8
+    ret z
+    ffmov(cx,zx)
+    ffmov(cy,zy)
+    fmul(zx,zx,zx2)
+    fmul(zy,zy,zy2)
+    ld a,maxiter
+    jp endwhile
+startwhile:
+    fmul(zx,zy,zy)
+    ld hl,zy+3      ;multiply zy by 2 by incrementing the exponent. No worries of overflow, so we can do this cheaply
+    inc (hl)
+    fadd(cy,zy,zy)
+    fsub(zx2,zy2,zx)
+    fadd(cx,zx,zx)    
+    fmul(zx,zx,zx2)
+    fmul(zy,zy,zy2)
+endwhile:
+    dec a
+    jr z,plotcalc
+    fadd(zx2,zy2,tmp)
+    ;fcmp(tmp,four)
+    ld h,a
+    ld a,(tmp+3)       ;check if tmp>=4. This happens if and only if the exponent of tmp is 82h or higher.
+    cp 82h
+    ld a,h
+    jr c,startwhile
+plotcalc:
+    or a            ;plot the pixel if counter reached zero
+    ld a,(mask)
+    ld hl,(bufptr)
+    jr nz,$+5
+    or (hl)
+    jr $+4
+    cpl
+    and (hl)
+    ld (hl),a
+    out (17),a
+    ld de,12
+    add hl,de
+    ld (bufptr),hl
+    fadd(cy,delta,cy)
+    ld hl,y
+    dec (hl)
+    jp nz,fory
+    fadd(cx,delta,cx)
+    ld hl,(bufptr)
+    ld a,(mask)
+    dec h
+    dec h
+    dec h
+    rrca
+    ld (mask),a
+    jr nc,+_
+    inc l
+    ld a,(lcd_y)
+    inc a
+    out (16),a
+    cp 2Ch
+    ld (lcd_y),a
+_:
+    ld (bufptr),hl
+    ld hl,x
+    dec (hl)
+    jp nz,forx    
+    ret
+init:
+    di
+    ld a,80h        ;Program the LCD to move the index to the top
+    out (16),a
+    ;ld a,80h       ;load the mask for the pixel data. Commented since 'a' is already 80h
+    ld (mask),a
+    ld hl,gbuf      ;load the ptr to the actual pixel data
+    ld (bufptr),hl
+    ld a,96           ;set X counter
+    ld (x),a
+    ld hl,(cx_init) \ ld (cx),hl     ;load the starting value for cx
+    ld hl,(cx_init+2) \ ld (cx+2),hl
+    ld a,$FD        ;Program the keyboard to only poll for keys in the [Enter] through [Clear] range
+    out (1),a
+    ld a,20h
+    ld (lcd_y),a
+    out(16),a
+    xor a
+    ld hl,gbuf
+    ld (hl),a
+    ld de,gbuf+1
+    ld bc,767
+    ldir
+    ret
+cx_init:
+    .db $00,$00,$80,$81 ;-2.0
+;    .db $00,$00,$80,$80 ;-1.0
+;    .db $51,$D6,$56,$7E ;.41960384
+;    .db $00,$00,$A0,$80 ;-1.25
+cy_init:
+;    .db $00,$00,$80,$81 ;-2.0
+    .db $00,$00,$80,$80 ;-1.0
+;    .db $7C,$AA,$48,$7D ;.19596284
+;    .db $00,$00,$80,$7E ;-.25
+;48aa7C
+delta_init:
+;    .db $00,$00,$00,$7C ;.0625
+    .db $00,$00,$00,$7B ;.03125
+;    .db $1b,$29,$1d,$73 ;.00007494
+;    .db $00,$00,$00,$79 ;1/128
+
+.echo "Size: ",$-$9D95," bytes"

@@ -1,0 +1,104 @@
+RAM Usage
+    Floatlib defines the first 256 bytes of RAM as 'scrap', for scrap RAM.
+  As of 03 May 2016, the most memory-intensive routine uses a whopping 29 bytes.
+  There are 8 bytes at the tail end of scrap that are used to hold the pseudo-random number generator seeds.
+  The TI-OS defines 24 bits of flag space that an app can use, and currently 1 bit is used.
+  This flag (bit ext,(iy+mathflags)) is used by some internal operations to extend the precision of intermediate calculations.
+  For details on how much RAM each routine uses, a readme is included with the Z80 Single Precision Floating Point Routines.
+
+Included Routines and How To Use Them.
+    Wherever x,y, and z are used, HL points to the float x, DE points to the float y, and BC points to where to output (z).
+  All float routines except cmpSingle do not affect main or shadow registers.
+
+  call iconstSingle \ .db ##
+    This retrns a pointer (in HL) to one of the built in constants, which are:
+        _pi     _e      _pi_inv _e_inv
+        _lg_e   _ln_2   _log2   _lg10
+        _0      _1      _inf    _NegInf
+        _NAN    _10     _10_inv _pi_div_ln2
+    Believe it or not, these are all vital to one routine or another.
+
+  absSingle
+    |x|->z
+  addSingle
+    x+y->z
+  subSingle
+    x-y->z
+  rsubSingle
+    y-x->z
+  ameanSingle
+    (x+y)/2->z
+  cmpSingle
+    if x<y, returns c, nz
+    if x>y, returns nc,nz
+    if x==y, returns nc,z
+  divSingle
+    x/y->z
+  invSingle
+    1/x->z
+  expSingle
+    e^x->z, this is the classic exponential function
+  powSingle
+    x^y->z
+  exp10Single
+    10^x->z
+  exp2Single
+    2^x->z
+  geomeanSingle
+    sqrt(xy)->z
+  sinhSingle
+    sinh(x)->z, not to be confused with sine(x), this is hyperbolic-sine
+  coshSingle
+    cosh(x)->z
+  tanhSingle
+    tanh(x)->z
+  logSingle
+    log_y(x)->z, "log base y of x"
+  lnSingle
+    ln(x)->z,   this is the classic natural logarithm
+  log10Single
+    log10(x)->z
+  lgSingle
+    log2(x)->z,   this is the binary logarithm
+  mulSingle
+    x*y->z
+  mul10Single
+    x*10->z
+  mul24
+    multiplies two 24-bit integers, returning a 48-bit result.
+    BDE*CHL -> HLBCDE
+  C_times_BDE
+    Output is in CAHL
+  negSingle
+    -x->z
+  randSingle
+    rand[0,1)->z
+  seedRand
+    use this to initialize the rand seeds.
+  rand
+    returns a pseudo-random 16-bit integer.
+    This is very fast and independently and professionally verified to be a qood prng.
+    This is NOT cryptographically secure!
+    Also, the universe will end before this completes a period on any calculator.
+  single2char
+    uint8(x)->z, Converts a float to an unisgned 8-bit integer.
+  single2str  = 407Eh
+    str(x)->z, converts a float to a zero-terminated string. I think 13-bytes is sufficient space in most cases.
+    It's probably safest to point the result to scrap, though.
+  single2TI   = 4081h
+    TIFloat(x)->z, converts a single-precision float to a TI-Float.
+  sqrtSingle
+    sqrt(x)->z
+  sqrt
+    performs a 32-bit integer square root with 16 extra bits of precision.
+    It can also be viewed as finding the square root of a 0.32 fixed point
+    number and returning the same format.
+    sqrt(DEHL)->DE.BC
+  str2Single
+    Converts an ASCII string to a float. $1B is the char for the exponential e, $1A is the negative sign.
+  sinSingle
+    sine(x)->z
+  cosSingle
+    cos(x)->z
+  tanSingle
+    tan(x)->z

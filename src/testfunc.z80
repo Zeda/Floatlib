@@ -1,0 +1,20 @@
+testfunc:
+;pi*e
+    test(const_pi,const_e,mulSingle,const_pi_times_e,sMul)
+    call dispAns
+;pi/e
+    test(const_pi,const_e,divSingle,const_pi_div_e,sDiv)
+    call dispAns
+;pi+e
+    test(const_pi,const_e,addSingle,const_pi_plus_e,sAdd)
+    call dispAns
+;pi-e
+    test(const_pi,const_e,subSingle,const_pi_minus_e,sSub)
+    call dispAns
+;1/pi
+    test(const_pi,0,invSingle,const_pi_inv,sInv)
+    call dispAns
+;lg(1/pi)
+    test(const_pi_inv,0,lgSingle,const_lg_pi_inv,sLg)
+;exp(lg(1/pi))
+    test(const_lg_pi_inv,0,Exp2Single,const_pi_inv,sExp2)

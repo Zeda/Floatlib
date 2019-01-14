@@ -1,0 +1,434 @@
+;1 is a routine
+;2 is text
+readme:
+;;HL points to the readme data
+    set textWrite,(iy+sGrFlags)
+    ld c,(hl)
+    inc hl
+    ld b,(hl)
+    inc hl
+    xor a
+    ld d,a
+    ld e,a
+    ld (penCol),de
+    call dispPage
+readme_loop:
+;A is the cursor position
+;BC is the number of entries
+;DE is the LUT offset
+;HL points to the LUT
+    push af
+    call readme_rectInv
+_:
+    call key_wait
+    ex (sp),hl
+    ld l,a
+    ld a,h
+    call readme_rectInv
+    ld a,l
+    ex (sp),hl
+    cp 15
+    jr z,readme_exit
+    cp 9
+    jr z,forward_page
+    dec a
+    jr z,down
+    dec a
+    jr z,back_page
+    dec a
+    jr z,forward_page
+    dec a
+    jr nz,readme_loop+1
+up:
+    pop af
+    or a
+    jp z,scroll_up
+    dec a
+    jr readme_loop
+down:
+    pop af
+    cp 9
+    jp z,scroll_down
+    inc a
+    jr readme_loop
+forward_page:
+    pop af
+    push hl
+    push de
+    push bc
+    push af
+    add a,e
+    ld e,a
+    jr nc,$+4
+    inc d
+    or a
+    ex de,hl
+    sbc hl,bc
+    jr nc,+_
+    add hl,bc
+    add hl,hl
+    add hl,de
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    xor a
+    ld c,a
+    ld b,a
+    cpir
+    ld a,(hl)
+    dec a
+    jr nz,+_
+    inc hl
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    call z,readme
+    xor a
+_:
+    dec a
+    jr nz,+_
+    inc hl
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    call _jpHL
+_:
+    pop af
+    pop bc
+    pop de
+    pop hl
+    jp readme_loop-3
+back_page:
+readme_exit:
+    pop af
+    ret
+dispHex:
+    ld d,(hl)
+    inc hl
+    ld a,(hl)
+    inc hl
+    push hl
+    push de
+    call +_
+    pop af
+    call +_
+    ld a,6
+    bcall(_VPutMap)
+    pop hl
+    ret
+_:
+    push af
+    rrca
+    rrca
+    rrca
+    rrca
+    call +_
+    pop af
+_:
+    and 15
+    cp 10
+    ccf
+    adc a,30h
+    daa
+    bcall(_VPutMap)
+    ret
+updateLCD:
+    push hl
+    push de
+    push bc
+    push af
+    bcall(_GrBufCpy)
+    jr popregs
+dispPage:
+    push af
+    call clrgBuf
+    xor a
+dispPageLoop:
+    call dispLine
+    inc a
+    cp 10
+    jr nz,dispPageLoop
+    pop af
+    ret
+readme_rectInv:
+    push hl
+    push de
+    push bc
+    push af
+    call updateLCD
+    ld e,a
+    add a,a
+    add a,e
+    add a,a
+    ld h,a
+    add a,5
+    ld d,a
+    ld l,0
+    ld e,95
+    bcall(_InvertRect)
+    jr popregs
+dispLine:
+;preserve registers
+;load coords into penCol, penRow
+;need (DE+A)<BC
+;display HL+(DE+A)*2
+    push hl
+    push de
+    push bc
+    push af
+    push hl
+    ld l,a
+    add a,a
+    add a,l
+    add a,a
+    ld h,a
+    ld a,l
+    ld l,0
+    ld (penCol),hl
+    pop hl
+    add a,e
+    jr nc,$+4
+    inc d
+    or a
+    ld e,a
+    ex de,hl
+    sbc hl,bc
+    jr nc,popregs
+    add hl,bc
+    add hl,hl
+    add hl,de
+    ld a,(hl)
+    inc hl
+    ld h,(hl)
+    ld l,a
+    ld b,(hl)
+    inc hl
+    dec b
+    call z,dispHex
+    call dispStr
+    ld a,(hl)
+    dec a
+    jr nz,$+12
+    ld a,91
+    ld (penCol),a
+    ld a,5
+    bcall(_VPutMap)
+popregs:
+    pop af
+    pop bc
+    pop de
+    pop hl
+    ret
+clrgBuf:
+    push hl
+    push de
+    push bc
+    push af
+    call +_
+    jr popregs
+_:
+    ld hl,gBuf
+    xor a
+    ld (hl),a
+    ld de,gBuf+1
+    ld bc,767
+    .db $C2     ;jp nz,**
+_:
+    ldi
+    ldi
+    ldi
+    ldi
+    ldi
+    ldi
+    ldi
+    ldi
+    jp pe,-_
+    ret
+dispStr:
+    ld a,(hl)
+    inc hl
+    or a
+    ret z
+    bcall(_VPutMap)
+    jr dispStr
+scroll_up:
+    push hl
+    ld h,a
+    ld a,e
+    or d
+    ld a,h
+    pop hl
+    jp z,readme_loop
+    dec de
+    push hl
+    push de
+    push bc
+    push af
+    ld de,gBuf+719
+    ld hl,gBuf+719-72
+    ld bc,648
+    lddr
+    ex de,hl
+    ld b,72
+    ld (hl),c \ dec hl \ djnz $-2
+    pop af
+    pop bc
+    pop de
+    pop hl
+    call dispLine
+    jp readme_loop
+scroll_down:
+    push hl
+    ld hl,10
+    add hl,de
+    sbc hl,bc
+    pop hl
+    jp nc,readme_loop
+    inc de
+    push hl
+    push de
+    push bc
+    push af
+    ld de,gBuf
+    ld hl,gBuf+72
+    ld bc,648
+    ldir
+    ex de,hl
+    ld b,72
+    ld (hl),c \ inc hl \ djnz $-2
+    pop af
+    pop bc
+    pop de
+    pop hl
+    call dispLine
+    jp readme_loop
+key_wait:
+    ei
+_:
+    halt
+    call key_debounce
+    or a
+    jr z,-_
+    ret
+key_debounce:
+    push hl
+    ld a,(843Fh)
+    ld hl,(curKey) ;L=curKey, H=keyCnt
+    cp l
+    ld l,a
+    ld a,0
+    jr z,$+5
+    ld a,l
+    ld h,11
+    dec h
+    jp p,$+6
+    ld a,l
+    ld h,5
+    ld (curKey),hl
+    pop hl
+    ret
+_jpHL:
+    jp (hl)
+readme_Data:
+.dw (d_00-$-2)/2,d_00,d_01,d_02,d_03,d_04  ;,d_05
+d_00: .db 2,"Navigate with",$1E,$1F,0,0
+d_01: .db 2,$05," or ",$C1,"Enter] opens a page",0,0
+d_02: .db 2,$CF," or ",$C1,"Clear] closes a page",0,0
+d_03: .db 2,"Routines",0,1 \ .dw routines
+d_04: .db 2,"ASM Opcode Header",0,1 \ .dw asmopheader
+;d_05: .db 2,"ASMComp (by Zeda T.)",0,2 \ .dw ASMComp
+asmopheader:
+.dw (a_00-$-2)/2,a_00,a_01,a_02,a_03,a_04,a_05,a_06,a_07,a_08,a_09,a_0A,a_0B,a_0C,a_0D
+a_00: .db 2,6,"180914466C6F61746C6962",0,0
+a_01: .db 2,6,"21979DE7EF4E4CD847DB06",0,0
+a_02: .db 2,6,"F578D306CDB69DF1D306C9",0,0
+a_03: .db 2,0,0
+a_04: .db 2,"This code loads the app and",0,0
+a_05: .db 2,"puts it away properly, so you",0,0
+a_06: .db 2,"can use any of its calls.",0,0
+a_07: .db 2,0,0
+a_08: .db 2,"After this is your code, which",0,0
+a_09: .db 2,"starts at $9DB6, NOT $9D95!",0,0
+a_0A: .db 2,0,0
+a_0B: .db 2,"The Routines section has the",0,1 \ .dw routines
+a_0C: .db 2,"call addresses. Remember to",0,0
+a_0D: .db 2,"swap the order!",0,0
+
+routines:
+.dw (r_00-$-2)/2,r_00,r_01,r_02,r_03,r_04,r_05,r_06,r_07,r_08,r_09,r_0A,r_0B,r_0C,r_0D,r_0E,r_0F,r_10,r_11,r_12,r_13,r_14,r_15,r_16,r_17,r_18,r_19,r_1A,r_1B,r_1C,r_1D,r_1E,r_1F,r_20,r_21,r_22,r_23,r_24,r_25
+r_00: .db 2,"HL points to x.",0,0
+r_01: .db 2,"DE points to y.",0,0
+r_02: .db 2,"BC points to output.",0,0
+r_03: .db 2,0,0
+r_04: .db 1 \ .dw jumptable \ .db "Constants",0,1 \ .dw r_Constants
+r_05: .db 1 \ .dw jumptable+3 \ .db "abs(x)",$1C,"z",0,0
+r_06: .db 1 \ .dw jumptable+6 \ .db "x+y",$1C,"z",0,0
+r_07: .db 1 \ .dw jumptable+9 \ .db "x-y",$1C,"z",0,0
+r_08: .db 1 \ .dw jumptable+12 \ .db "y-x",$1C,"z",0,0
+r_09: .db 1 \ .dw jumptable+15 \ .db "(x+y)/2",$1C,"z",0,0
+r_0A: .db 1 \ .dw jumptable+18 \ .db "x-y,flags",0,0
+r_0B: .db 1 \ .dw jumptable+21 \ .db "x/y",$1C,"z",0,0
+r_0C: .db 1 \ .dw jumptable+24 \ .db "1/x",$1C,"z",0,0
+r_0D: .db 1 \ .dw jumptable+27 \ .db $DB,"^x",$1C,"z",0,0
+r_0E: .db 1 \ .dw jumptable+30 \ .db "x^y",$1C,"z",0,0
+r_0F: .db 1 \ .dw jumptable+33 \ .db "10^x",$1C,"z",0,0
+r_10: .db 1 \ .dw jumptable+36 \ .db "2^x",$1C,"z",0,0
+r_11: .db 1 \ .dw jumptable+39 \ .db $10,"(xy)",$1C,"z",0,0
+r_12: .db 1 \ .dw jumptable+42 \ .db "sinh(x)",$1C,"z",0,0
+r_13: .db 1 \ .dw jumptable+45 \ .db "cosh(x)",$1C,"z",0,0
+r_14: .db 1 \ .dw jumptable+48 \ .db "tanh(x)",$1C,"z",0,0
+r_15: .db 1 \ .dw jumptable+51 \ .db "log_y(x)",$1C,"z",0,0
+r_16: .db 1 \ .dw jumptable+54 \ .db "ln(x)",$1C,"z",0,0
+r_17: .db 1 \ .dw jumptable+57 \ .db "log10(x)",$1C,"z",0,0
+r_18: .db 1 \ .dw jumptable+60 \ .db "log2(x)",$1C,"z",0,0
+r_19: .db 1 \ .dw jumptable+63 \ .db "x*y",$1C,"z",0,0
+r_1A: .db 1 \ .dw jumptable+66 \ .db "x*10",$1C,"z",0,1 \ .dw r_mul
+r_1B: .db 1 \ .dw jumptable+75 \ .db "-x",$1C,"z",0,0
+r_1C: .db 1 \ .dw jumptable+78 \ .db "rand",$1C,"z",0,1 \ .dw r_rand
+r_1D: .db 1 \ .dw jumptable+87 \ .db "uint8(x)",$1C,"z",0,0
+r_1E: .db 1 \ .dw jumptable+90 \ .db "str(x)",$1C,"z",0,0
+r_1F: .db 1 \ .dw jumptable+93 \ .db "TIFloat(x)",$1C,"z",0,0
+r_20: .db 1 \ .dw jumptable+96 \ .db $10,"(x)",$1C,"z",0,1 \ .dw r_sqrt
+r_21: .db 1 \ .dw jumptable+102 \ .db "str",$1C,"single",0,0
+r_22: .db 1 \ .dw jumptable+105 \ .db "sin(x)",$1C,"z",0,0
+r_23: .db 1 \ .dw jumptable+108 \ .db "cos(x)",$1C,"z",0,0
+r_24: .db 1 \ .dw jumptable+111 \ .db "tan(x)",$1C,"z",0,0
+r_25: .db 1 \ .dw jumptable+114 \ .db "float(x [a TI string])",$1C,"z",0,0
+
+r_Constants:
+.dw (c_-$-2)/2,c_,c_00,c_01,c_02,c_03,c_04,c_05,c_06,c_07,c_08,c_09,c_0A,c_0B,c_0C,c_0D,c_0E,c_0F
+c_: .db 2,"Constants. A is the ID",0
+c_00: .db 2,"00",6,$1C,6,$C4,0 ;pi
+c_01: .db 2,"01",6,$1C,6,$DB,0 ;e
+c_02: .db 2,"02",6,$1C,6,$DB,"/ln(2)",0
+c_03: .db 2,"03",6,$1C,6,"log2(",$DB,")",0
+c_04: .db 2,"04",6,$1C,6,"ln(2)",0
+c_05: .db 2,"05",6,$1C,6,"log10(2)",0
+c_06: .db 2,"06",6,$1C,6,"log2(10)",0
+c_07: .db 2,"07",6,$1C,6,"0",0
+c_08: .db 2,"08",6,$1C,6,"1",0
+c_09: .db 2,"09",6,$1C,6,"+inf",0
+c_0A: .db 2,"0A",6,$1C,6,$1A,"inf",0
+c_0B: .db 2,"0B",6,$1C,6,"NAN",0
+c_0C: .db 2,"0C",6,$1C,6,"10",0
+c_0D: .db 2,"0D",6,$1C,6,"0.1",0
+c_0E: .db 2,"0E",6,$1C,6,"1/",$C4,0
+c_0F: .db 2,"0F",6,$1C,6,"1/",$DB,0
+
+r_mul: .dw (m_00-$-2)/2,m_00,m_01
+m_00: .db 1 \ .dw jumptable+69 \ .db "BDE*CHL",$1C,"HLBCDE",0,0
+m_01: .db 1 \ .dw jumptable+72 \ .db "C*BDE",$1C,"CAHL",0,0
+
+r_rand:
+.dw (rand_00-$-2)/2,rand_00,rand_01,rand_02
+rand_00: .db 1 \ .dw jumptable+81 \ .db "seed rand",0,0
+rand_01: .db 1 \ .dw jumptable+84 \ .db "rand",$1C,"HL",0,0
+rand_02: .db 2,"Quality numbers,Very fast",0,0
+
+r_sqrt:
+.dw (s_00-$-2)/2,s_00
+s_00: .db 1 \ .dw jumptable+99 \ .db $10,"(0.DEHL)",$1C,"0.DEBC",0,0
+.echo "readme data:",$-readme_Data," bytes"

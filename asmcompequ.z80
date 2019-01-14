@@ -1,0 +1,220 @@
+#include "docs/floatlib.inc"
+#define equb(x,y) .db 8,x,9 \ .db y
+#define equ(x,y)  .db 6,x,7 \ .dw y
+.dw 108
+.dw equ_0
+.dw equ_1
+.dw equ_2
+.dw equ_3
+.dw equ_4
+.dw equ_5
+.dw equ_6
+.dw equ_7
+.dw equ_8
+.dw equ_9
+.dw equ_10
+.dw equ_11
+.dw equ_12
+.dw equ_13
+.dw equ_14
+.dw equ_15
+.dw equ_16
+.dw equ_17
+.dw equ_18
+.dw equ_19
+.dw equ_20
+.dw equ_21
+.dw equ_22
+.dw equ_23
+.dw equ_24
+.dw equ_25
+.dw equ_26
+.dw equ_27
+.dw equ_28
+.dw equ_29
+.dw equ_30
+.dw equ_31
+.dw equ_32
+.dw equ_33
+.dw equ_34
+.dw equ_35
+.dw equ_36
+.dw equ_37
+.dw equ_38
+.dw equ_39
+.dw equ_40
+.dw equ_41
+.dw equ_42
+.dw equ_43
+.dw equ_44
+.dw equ_45
+.dw equ_46
+.dw equ_47
+.dw equ_48
+.dw equ_49
+.dw equ_50
+.dw equ_51
+.dw equ_52
+.dw equ_53
+.dw equ_54
+.dw equ_55
+.dw equ_56
+.dw equ_57
+.dw equ_58
+.dw equ_59
+.dw equ_60
+.dw equ_61
+.dw equ_62
+.dw equ_63
+.dw equ_64
+.dw equ_65
+.dw equ_66
+.dw equ_67
+.dw equ_68
+.dw equ_69
+.dw equ_70
+.dw equ_71
+.dw equ_72
+.dw equ_73
+.dw equ_74
+.dw equ_75
+.dw equ_76
+.dw equ_77
+.dw equ_78
+.dw equ_79
+.dw equ_80
+.dw equ_81
+.dw equ_82
+.dw equ_83
+.dw equ_84
+.dw equ_85
+.dw equ_86
+.dw equ_87
+.dw equ_88
+.dw equ_89
+.dw equ_90
+.dw equ_91
+.dw equ_92
+.dw equ_93
+.dw equ_94
+.dw equ_95
+.dw equ_96
+.dw equ_97
+.dw equ_98
+.dw equ_99
+.dw equ_100
+.dw equ_101
+.dw equ_102
+.dw equ_103
+.dw equ_104
+.dw equ_105
+.dw equ_106
+.dw equ_107
+equ_0: .db "#DEFINE FADD(SRC1,SRC2,DEST)  ARGS_SSD(SRC1,SRC2,DEST) \ CALL ADDSINGLE,0" \ .dw #define fadd(src1,src2,dest)  args_ssd(src1,src2,dest) \ call addSingle
+equ_1: .db "#DEFINE FCMP(SRC1,SRC2)       ARGS_SS(SRC1,SRC2)       \ CALL CMPSINGLE,0" \ .dw #define fcmp(src1,src2)       args_ss(src1,src2)       \ call cmpSingle
+equ_2: .db "#DEFINE FMOV(SRC,DEST)        ARGS_SS(SRC,DEST)        \ LDI \ LDI \ LDI \ LDI,0" \ .dw #define fmov(src,dest)        args_ss(src,dest)        \ ldi \ ldi \ ldi \ ldi
+equ_3: .db "#DEFINE FMUL(SRC1,SRC2,DEST)  ARGS_SSD(SRC1,SRC2,DEST) \ CALL MULSINGLE,0" \ .dw #define fmul(src1,src2,dest)  args_ssd(src1,src2,dest) \ call mulSingle
+equ_4: .db "#DEFINE FRSUB(SRC1,SRC2,DEST) ARGS_SSD(SRC1,SRC2,DEST) \ CALL RSUBSINGLE,0" \ .dw #define frsub(src1,src2,dest) args_ssd(src1,src2,dest) \ call rsubSingle
+equ_5: .db "#DEFINE FSQR(SRC,DEST)        ARGS_SSD(SRC,SRC,DEST)   \ CALL MULSINGLE,0" \ .dw #define fsqr(src,dest)        args_ssd(src,src,dest)   \ call mulSingle
+equ_6: .db "#DEFINE FSUB(SRC1,SRC2,DEST)  ARGS_SSD(SRC1,SRC2,DEST) \ CALL SUBSINGLE,0" \ .dw #define fsub(src1,src2,dest)  args_ssd(src1,src2,dest) \ call subSingle
+equ_7: .db "#ELSE,0" \ .dw #else
+equ_8: .db "#ELSE,0" \ .dw #else
+equ_9: .db "#ELSE,0" \ .dw #else
+equ_10: .db "#ELSE,0" \ .dw #else
+equ_11: .db "#ELSE,0" \ .dw #else
+equ_12: .db "#ENDIF,0" \ .dw #endif
+equ_13: .db "#ENDIF,0" \ .dw #endif
+equ_14: .db "#ENDIF,0" \ .dw #endif
+equ_15: .db "#ENDIF,0" \ .dw #endif
+equ_16: .db "#ENDIF,0" \ .dw #endif
+equ_17: .db "#ENDMACRO,0" \ .dw #endmacro
+equ_18: .db "#ENDMACRO,0" \ .dw #endmacro
+equ_19: .db "#ENDMACRO,0" \ .dw #endmacro
+equ_20: .db "#IF (DEST,0" \ .dw #if (dest
+equ_21: .db "#IF DEST,0" \ .dw #if dest
+equ_22: .db "#IF SRC,0" \ .dw #if src
+equ_23: .db "#IF SRC1,0" \ .dw #if src1
+equ_24: .db "#IF SRC1,0" \ .dw #if src1
+equ_25: .db "#MACRO ARGS_SD(SRC,DEST),0" \ .dw #macro args_sd(src,dest)
+equ_26: .db "#MACRO ARGS_SS(SRC1,SRC2),0" \ .dw #macro args_ss(src1,src2)
+equ_27: .db "#MACRO ARGS_SSD(SRC1,SRC2,DEST),0" \ .dw #macro args_ssd(src1,src2,dest)
+equ_28: .db ".ECHO "WORKS",0" \ .dw .echo "works"
+equ_29: .db "ABSSINGLE,0" \ .dw absSingle
+equ_30: .db "ADDSINGLE,0" \ .dw addSingle
+equ_31: .db "AMEANSINGLE,0" \ .dw ameanSingle
+equ_32: .db "CMPSINGLE,0" \ .dw cmpSingle
+equ_33: .db "COSHSINGLE,0" \ .dw coshSingle
+equ_34: .db "COSSINGLE,0" \ .dw cosSingle
+equ_35: .db "CURKEY,0" \ .dw curKey
+equ_36: .db "C_TIMES_BDE,0" \ .dw C_times_BDE
+equ_37: .db "DIVSINGLE,0" \ .dw divSingle
+equ_38: .db "EXP10SINGLE,0" \ .dw exp10Single
+equ_39: .db "EXP2SINGLE,0" \ .dw exp2Single
+equ_40: .db "EXPSINGLE,0" \ .dw expSingle
+equ_41: .db "EXT,0" \ .dw ext
+equ_42: .db "GEOMEANSINGLE,0" \ .dw geomeanSingle
+equ_43: .db "ICONSTSINGLE,0" \ .dw iconstSingle
+equ_44: .db "INVSINGLE,0" \ .dw invSingle
+equ_45: .db "KEYCOUNT,0" \ .dw keyCount
+equ_46: .db "LD B,D,0" \ .dw ld b,d
+equ_47: .db "LD B,H,0" \ .dw ld b,h
+equ_48: .db "LD B,H,0" \ .dw ld b,h
+equ_49: .db "LD BC,DEST,0" \ .dw ld bc,dest
+equ_50: .db "LD BC,DEST,0" \ .dw ld bc,dest
+equ_51: .db "LD C,E,0" \ .dw ld c,e
+equ_52: .db "LD C,L,0" \ .dw ld c,l
+equ_53: .db "LD C,L,0" \ .dw ld c,l
+equ_54: .db "LD D,H,0" \ .dw ld d,h
+equ_55: .db "LD D,H,0" \ .dw ld d,h
+equ_56: .db "LD DE,SRC2,0" \ .dw ld de,src2
+equ_57: .db "LD DE,SRC2,0" \ .dw ld de,src2
+equ_58: .db "LD E,L,0" \ .dw ld e,l
+equ_59: .db "LD E,L,0" \ .dw ld e,l
+equ_60: .db "LD HL,SRC,0" \ .dw ld hl,src
+equ_61: .db "LD HL,SRC1,0" \ .dw ld hl,src1
+equ_62: .db "LD HL,SRC1,0" \ .dw ld hl,src1
+equ_63: .db "LGSINGLE,0" \ .dw lgSingle
+equ_64: .db "LNSINGLE,0" \ .dw lnSingle
+equ_65: .db "LOG10SINGLE,0" \ .dw log10Single
+equ_66: .db "LOGSINGLE,0" \ .dw logSingle
+equ_67: .db "MATHFLAGS,0" \ .dw mathflags
+equ_68: .db "MUL10SINGLE,0" \ .dw mul10Single
+equ_69: .db "MUL24,0" \ .dw mul24
+equ_70: .db "MULSINGLE,0" \ .dw mulSingle
+equ_71: .db "NEGSINGLE,0" \ .dw negSingle
+equ_72: .db "POWSINGLE,0" \ .dw powSingle
+equ_73: .db "RAND,0" \ .dw rand
+equ_74: .db "RANDSINGLE,0" \ .dw randSingle
+equ_75: .db "RSUBSINGLE,0" \ .dw rsubSingle
+equ_76: .db "SCRAP,0" \ .dw scrap
+equ_77: .db "SEED1,0" \ .dw seed1
+equ_78: .db "SEED2,0" \ .dw seed2
+equ_79: .db "SEEDRAND,0" \ .dw seedRand
+equ_80: .db "SINGLE2CHAR,0" \ .dw single2char
+equ_81: .db "SINGLE2STR,0" \ .dw single2str
+equ_82: .db "SINGLE2TI,0" \ .dw single2TI
+equ_83: .db "SINHSINGLE,0" \ .dw sinhSingle
+equ_84: .db "SINSINGLE,0" \ .dw sinSingle
+equ_85: .db "SQRT,0" \ .dw sqrt
+equ_86: .db "SQRTSINGLE,0" \ .dw sqrtSingle
+equ_87: .db "STR2SINGLE,0" \ .dw str2single
+equ_88: .db "SUBSINGLE,0" \ .dw subSingle
+equ_89: .db "TANHSINGLE,0" \ .dw tanhSingle
+equ_90: .db "TANSINGLE,0" \ .dw tanSingle
+equ_91: .db "TISTRTOSINGLE,0" \ .dw tistrToSingle
+equ_92: .db "_0,0" \ .dw _0
+equ_93: .db "_1,0" \ .dw _1
+equ_94: .db "_10,0" \ .dw _10
+equ_95: .db "_10_INV,0" \ .dw _10_inv
+equ_96: .db "_E,0" \ .dw _e
+equ_97: .db "_E_INV,0" \ .dw _e_inv
+equ_98: .db "_INF,0" \ .dw _inf
+equ_99: .db "_LG10,0" \ .dw _lg10
+equ_100: .db "_LG_E,0" \ .dw _lg_e
+equ_101: .db "_LN_2,0" \ .dw _ln_2
+equ_102: .db "_LOG2,0" \ .dw _log2
+equ_103: .db "_NAN,0" \ .dw _NAN
+equ_104: .db "_NEGINF,0" \ .dw _NegInf
+equ_105: .db "_PI,0" \ .dw _pi
+equ_106: .db "_PI_DIV_LN2,0" \ .dw _pi_div_ln2
+equ_107: .db "_PI_INV,0" \ .dw _pi_inv
