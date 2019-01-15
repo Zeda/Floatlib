@@ -1,38 +1,43 @@
 jumptable:
   jp iconstSingle
   jp pushpop
-  jp absSingle
   jp addSingle
   jp ameanSingle
-  jp cmpSingle
-  jp rsubSingle
   jp subSingle
+  jp rsubSingle
   jp divSingle
   jp invSingle
   jp mulSingle
-  jp negSingle
+  jp mul10Single
   jp sqrtSingle
   jp geomeanSingle
+  jp cmpSingle
+  jp absSingle
+  jp negSingle
+
   jp expSingle
   jp pow2Single
   jp pow10Single
   jp powSingle
-  jp lgSingle
   jp lnSingle
+  jp lgSingle
   jp log10Single
   jp logSingle
-  jp acoshSingle
+
+
   jp acosSingle
-  jp asinhSingle
+  jp acoshSingle
   jp asinSingle
-  jp atanhSingle
+  jp asinhSingle
   jp atanSingle
-  jp coshSingle
+  jp atanhSingle
   jp cosSingle
-  jp sinhSingle
+  jp coshSingle
   jp sinSingle
-  jp tanhSingle
+  jp sinhSingle
   jp tanSingle
+  jp tanhSingle
+
   jp bg2iSingle
   jp bgiSingle
   jp div255Single
@@ -42,67 +47,100 @@ jumptable:
   jp div15Single
   jp div5Single
   jp div3Single
-  jp mul10Single
   jp mulSingle_p375
   jp mulSingle_p34375
   jp mulSingle_p041015625
   jp randSingle
   jp single2str
   jp single2TI
+  jp str2single
   jp ti2single
   jp single2char
 ;extended precision routines
-  jp xabs
+  jp xconst
   jp xadd
   jp xamean
-  jp xcmp
-  jp xrsub
   jp xsub
+  jp xrsub
   jp xdiv
   jp xinv
   jp xmul
-  jp xneg
+  jp xmul10
   jp xsqrt
   jp xgeomean
+  jp xcmp
+  jp xabs
+  jp xneg
+
   jp xexp
   jp xpow2
   jp xpow10
   jp xpow
-  jp xlg
   jp xln
+  jp xlg
   jp xlog10
   jp xlog
-  jp xacosh
+
   jp xacos
-  jp xasinh
+  jp xacosh
   jp xasin
-  jp xatanh
+  jp xasinh
   jp xatan
-  jp xcosh
+  jp xatanh
   jp xcos
-  jp xsinh
+  jp xcosh
   jp xsin
-  jp xtanh
+  jp xsinh
   jp xtan
-  jp xbg2i
-  jp xbgi
-  jp xdiv255
-  jp xdiv85
-  jp xdiv51
-  jp xdiv17
-  jp xdiv15
-  jp xdiv5
-  jp xdiv3
-  jp xmul10
-  jp xmul_p375
-  jp xmul_p34375
-  jp xmul_p041015625
+  jp xtanh
+
+  jp xbg
   jp xrand
   jp xtostr
   jp xtoTI
+  jp strtox
   jp TItox
-  jp x2char
-x2char:
+;Useful sub-routines
+  jp mul16
+  jp mul24
+  jp mul32
+  jp mul64
+  jp C_Times_BDE
+  jp rand
+  jp randInit
+  jp sqrtHL
+  jp sqrt32
+  jp sqrt64
+  jp divide16
+  jp div32_16
+  jp div32_32
+  jp div64_32
+  jp div64
+  jp mov4
+  jp mov10
+  jp swapxOP2xOP3
+  jp diRestore
+
+strtox:
 TItox:
 xtoTI:
+xabs:
+xcmp:
+xinv:
+xneg:
+xexp:
+xpow2:
+xpow10:
+xpow:
+xlg:
+xlog10:
+xlog:
+xcosh:
+xcos:
+xsin:
+xsinh:
+xtan:
+xtanh:
+xmul10:
+xconst:
   ret
