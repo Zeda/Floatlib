@@ -62,7 +62,7 @@ vars    = scrap+29  ;After this point there is freely available RAM
 seed1   = 80F8h
 seed2   = 80FCh
 
-#constant IDs for single precision
+;constant IDs for single precision
 _pi     = 0
 _e      = 1
 _pi_div_ln2=2

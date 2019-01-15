@@ -1,17 +1,24 @@
 #include "header.z80"
-cx   = vars
-cy   = vars+4
-delta= vars+8
-zx   = vars+12
-zy   = vars+16
-zx2  = vars+20
-zy2  = vars+24
-x    = vars+28
-y    = vars+29
-bufptr=vars+30
-mask = vars+32
-lcd_y= vars+33
-tmp  = vars+34
+#ifdef EXT_PREC
+#define SIZE_OF_FLOAT 10
+bufptr=$86EC
+#else
+#define SIZE_OF_FLOAT 4
+bufptr=vars
+#endif
+cx   = bufptr+SIZE_OF_FLOAT
+cy   = cx+SIZE_OF_FLOAT
+delta= cy+SIZE_OF_FLOAT
+zx   = delta+SIZE_OF_FLOAT
+zy   = zx+SIZE_OF_FLOAT
+zx2  = zy+SIZE_OF_FLOAT
+zy2  = zx2+SIZE_OF_FLOAT
+mask = zy2+SIZE_OF_FLOAT
+lcd_y= mask+1
+x    = lcd_y+1
+y    = x+1
+tmp  = tmp+1
+
 gbuf = 9340h
 maxiter=16
 start:
@@ -24,8 +31,13 @@ start:
 forx:
     ld a,64     ;set Y counter to 64
     ld (y),a
+#ifdef EXT_PREC
+    fmovx(cy_init_ext,cy)
+    fmovx(delta_init_ext,delta)
+#else
     ffmov(cy_init,cy)
     ffmov(delta_init,delta)
+#endif
 fory:
     in a,(1)    ;poll the keyboard for [Clear]
     and 40h
@@ -33,24 +45,54 @@ fory:
     in a,(4)    ;poll for [ON]
     and 8
     ret z
+#ifdef EXT_PREC
+    fmovx(cx,zx)
+    fmovx(cy,zy)
+    mulx(zx,zx,zx2)
+    mulx(zy,zy,zy2)
+#else
     ffmov(cx,zx)
     ffmov(cy,zy)
     fmul(zx,zx,zx2)
     fmul(zy,zy,zy2)
+#endif
     ld a,maxiter
     jp endwhile
 startwhile:
+#ifdef EXT_PREC
+    mulx(zx,zy,zy)
+    ld hl,(zy+8)      ;multiply zy by 2 by incrementing the exponent. No worries of overflow, so we can do this cheaply
+    inc hl
+    ld (zy+8),hl
+    addx(cy,zy,zy)
+    subx(zx2,zy2,zx)
+    addx(cx,zx,zx)
+    mulx(zx,zx,zx2)
+    mulx(zy,zy,zy2)
+#else
     fmul(zx,zy,zy)
     ld hl,zy+3      ;multiply zy by 2 by incrementing the exponent. No worries of overflow, so we can do this cheaply
     inc (hl)
     fadd(cy,zy,zy)
     fsub(zx2,zy2,zx)
-    fadd(cx,zx,zx)    
+    fadd(cx,zx,zx)
     fmul(zx,zx,zx2)
     fmul(zy,zy,zy2)
+#endif
 endwhile:
     dec a
     jr z,plotcalc
+#ifdef EXT_PREC
+  push af
+    addx(zx2,zy2,tmp)
+    ;fcmp(tmp,four)
+    ld hl,(tmp+8)
+    res 7,h
+    ld bc,-$4002
+    add hl,bc
+    jr nc,startwhile
+  pop af
+#else
     fadd(zx2,zy2,tmp)
     ;fcmp(tmp,four)
     ld h,a
@@ -58,6 +100,7 @@ endwhile:
     cp 82h
     ld a,h
     jr c,startwhile
+#endif
 plotcalc:
     or a            ;plot the pixel if counter reached zero
     ld a,(mask)
@@ -72,11 +115,19 @@ plotcalc:
     ld de,12
     add hl,de
     ld (bufptr),hl
+#ifdef EXT_PREC
+    addx(cy,delta,cy)
+#else
     fadd(cy,delta,cy)
+#endif
     ld hl,y
     dec (hl)
     jp nz,fory
+#ifdef EXT_PREC
+    addx(cx,delta,cx)
+#else
     fadd(cx,delta,cx)
+#endif
     ld hl,(bufptr)
     ld a,(mask)
     dec h
@@ -95,7 +146,7 @@ _:
     ld (bufptr),hl
     ld hl,x
     dec (hl)
-    jp nz,forx    
+    jp nz,forx
     ret
 init:
     di
@@ -107,8 +158,11 @@ init:
     ld (bufptr),hl
     ld a,96           ;set X counter
     ld (x),a
-    ld hl,(cx_init) \ ld (cx),hl     ;load the starting value for cx
-    ld hl,(cx_init+2) \ ld (cx+2),hl
+#ifdef EXT_PREC
+    fmovx(cx_init_ext,cx)
+#else
+    ffmov(cx_init,cx)
+#endif
     ld a,$FD        ;Program the keyboard to only poll for keys in the [Enter] through [Clear] range
     out (1),a
     ld a,20h
@@ -121,6 +175,14 @@ init:
     ld bc,767
     ldir
     ret
+#ifdef EXT_PREC
+cx_init_ext:
+  .db $00,$00,$00,$00,$00,$00,$00,$80 \ .dw $C001 ;-2.0
+cy_init_ext:
+  .db $00,$00,$00,$00,$00,$00,$00,$80 \ .dw $C000 ;-1.0
+delta_init_ext:
+  .db $00,$00,$00,$00,$00,$00,$00,$80 \ .dw $3FFB ;.03125
+#else
 cx_init:
     .db $00,$00,$80,$81 ;-2.0
 ;    .db $00,$00,$80,$80 ;-1.0
@@ -137,5 +199,5 @@ delta_init:
     .db $00,$00,$00,$7B ;.03125
 ;    .db $1b,$29,$1d,$73 ;.00007494
 ;    .db $00,$00,$00,$79 ;1/128
-
+#endif
 .echo "Size: ",$-$9D95," bytes"

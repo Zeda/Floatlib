@@ -1,0 +1,150 @@
+#include "header.z80"
+bufptr=86ECh
+cx   = bufptr+10
+cy   = cx+10
+delta= cy+10
+zx   = delta+10
+zy   = zx+10
+zx2  = zy+10
+zy2  = zx2+10
+mask = zy2+10
+lcd_y= mask+1
+x    = lcd_y+1
+y    = x+1
+tmp  = tmp+1
+
+gbuf = 9340h
+maxiter=100
+start:
+    in a,(2)
+    add a,a
+    sbc a,a
+    and 3
+    out (20h),a
+    call init   ;initialize keyboard, LCD, variables
+forx:
+    ld a,64     ;set Y counter to 64
+    ld (y),a
+    ld hl,cy_init_ext
+    ld de,cy
+    call mov10
+    ld hl,delta_init_ext
+    ld de,delta
+    call mov10
+;    movx(cy_init_ext,cy)
+;    movx(delta_init_ext,delta)
+fory:
+    in a,(1)    ;poll the keyboard for [Clear]
+    and 40h
+    ret z
+    in a,(4)    ;poll for [ON]
+    and 8
+    ret z
+    movx(cx,zx)
+    movx(cy,zy)
+    ld hl,zx
+    ld d,h
+    ld e,l
+    ld bc,zx2
+    call xmul
+;    mulx(zx,zx,zx2)
+    ld hl,zy
+    ld d,h
+    ld e,l
+    ld bc,zy2
+    call xmul
+;    mulx(zy,zy,zy2)
+    ld a,maxiter
+    jp endwhile
+startwhile:
+    mulx(zx,zy,zy)
+    ld hl,(zy+8)      ;multiply zy by 2 by incrementing the exponent. No worries of overflow, so we can do this cheaply
+    inc hl
+    ld (zy+8),hl
+    addx(cy,zy,zy)
+    subx(zx2,zy2,zx)
+    addx(cx,zx,zx)
+    mulx(zx,zx,zx2)
+    mulx(zy,zy,zy2)
+endwhile:
+    dec a
+    jr z,plotcalc
+    addx(zx2,zy2,tmp)
+    ;fcmp(tmp,four)
+    ld hl,(tmp+8)
+    ld bc,$4002
+    or a
+    sbc hl,bc
+    jr c,startwhile
+plotcalc:
+    or a            ;plot the pixel if counter reached zero
+    ld a,(mask)
+    ld hl,(bufptr)
+    jr nz,$+4
+    or (hl)
+    .db $CA   ;start of jp z,**
+    cpl
+    and (hl)
+    ld (hl),a
+    out (17),a
+    ld de,12
+    add hl,de
+    ld (bufptr),hl
+    addx(cy,delta,cy)
+    ld hl,y
+    dec (hl)
+    jp nz,fory
+    addx(cx,delta,cx)
+    ld hl,(bufptr)
+    ld a,(mask)
+    dec h
+    dec h
+    dec h
+    rrca
+    ld (mask),a
+    jr nc,+_
+    inc l
+    ld a,(lcd_y)
+    inc a
+    out (16),a
+    cp 2Ch
+    ld (lcd_y),a
+_:
+    ld (bufptr),hl
+    ld hl,x
+    dec (hl)
+    jp nz,forx
+    ret
+init:
+    di
+    ld a,80h        ;Program the LCD to move the index to the top
+    out (16),a
+    ;ld a,80h       ;load the mask for the pixel data. Commented since 'a' is already 80h
+    ld (mask),a
+    ld hl,gbuf      ;load the ptr to the actual pixel data
+    ld (bufptr),hl
+    ld a,96           ;set X counter
+    ld (x),a
+    movx(cx_init_ext,cx)
+    ld a,$FD        ;Program the keyboard to only poll for keys in the [Enter] through [Clear] range
+    out (1),a
+    ld a,20h
+    ld (lcd_y),a
+    out(16),a
+    xor a
+    ld hl,gbuf
+    ld (hl),a
+    ld de,gbuf+1
+    ld bc,767
+    ldir
+    ret
+cx_init_ext:
+;  .db $00,$00,$00,$00,$00,$00,$01,$80 \ .dw $C001 ;-2
+  .db $6F,$12,$83,$C0,$CA,$A1,$45,$B6 \ .dw $BFFF ;-.712
+cy_init_ext:
+;  .db $00,$00,$00,$00,$00,$00,$01,$80 \ .dw $C000 ;-1.0
+  .db $42,$60,$E5,$D0,$22,$DB,$F9,$FE \ .dw $3FFD ;.249
+delta_init_ext:
+;  .db $00,$00,$00,$00,$00,$00,$00,$80 \ .dw $3FFB ;.03125
+  .db $3B,$DF,$4F,$8D,$97,$6E,$12,$83 \ .dw $3FF1 ;.003/96
+.echo "Size: ",$-$9D95," bytes"

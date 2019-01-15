@@ -1,0 +1,5 @@
+#/bin/bash
+python makeinc.py
+cp floatlib.inc ../floatlib.inc
+cp floatlib.inc ../docs/floatlib.inc
+cp floatlib.inc ../examples/floatlib.inc

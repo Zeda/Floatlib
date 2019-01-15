@@ -31,11 +31,11 @@ Zeda Thomas (xedaelnara@gmail.com)
   When in doubt, ask! I sometimes go weeks or months without checking email or
 social media. If waiting for me is impeding a release, you can release it and
 we can discuss it later.
-  
+
 %=%=%=%=%=%=%=%=%=%
 0.2 Usage and Setup
 %=%=%=%=%=%=%=%=%=%
-  In order to use these routines, simply use '#include "single.inc"'
+  In order to use these routines, just '#include "<<routine>>.z80"' and any dependencies.
   You may also want to change the value for 'scrap' which is used for calculations.
   All the routines included have a standard input/output:
     HL points to the first argument known as 'x'
@@ -75,7 +75,7 @@ Instead, we will substitute that bit with the sign flag. 0 is +, 1 is -.
       +128 bias
             ==> 131
             ==> 0x83
-  So then we have .db $00,$00,$68,$83. 
+  So then we have .db $00,$00,$68,$83.
 %=%=%=%=%=%=%=%=%=%=%
 1.0 Special Constants
 %=%=%=%=%=%=%=%=%=%=%

@@ -119,6 +119,29 @@ xrou:
 .echo " Extended precision: ",$-extfloats," bytes"
 
 
+strtox:
+TItox:
+xtoTI:
+xabs:
+xcmp:
+xinv:
+xneg:
+xexp:
+xpow2:
+xpow10:
+xpow:
+xlg:
+xlog10:
+xlog:
+xcosh:
+xcos:
+xsin:
+xsinh:
+xtan:
+xtanh:
+xmul10:
+xconst:
+  ret
 
 
 .echo "Total:",$-4000h," bytes"

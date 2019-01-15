@@ -120,27 +120,3 @@ jumptable:
   jp mov10
   jp swapxOP2xOP3
   jp diRestore
-
-strtox:
-TItox:
-xtoTI:
-xabs:
-xcmp:
-xinv:
-xneg:
-xexp:
-xpow2:
-xpow10:
-xpow:
-xlg:
-xlog10:
-xlog:
-xcosh:
-xcos:
-xsin:
-xsinh:
-xtan:
-xtanh:
-xmul10:
-xconst:
-  ret
