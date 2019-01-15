@@ -1,0 +1,2 @@
+*.z80 linguist-language=Assembly
+*.inc linguist-language=Assembly
