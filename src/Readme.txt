@@ -95,10 +95,10 @@ const_10_inv: .db $CD,$CC,$4C,$7C    ;roughly 0.1
 const_pi_inv: .db $83,$F9,$22,$7E
 const_e_inv:  .db $B2,$5A,$3C,$7E
 
-%=%=%=%=%=%=%
-2.0 Routines
-%=%=%=%=%=%=%
-
+%=%=%=%=%=%=%=%=%=%=%
+2.0 Single Precision
+%=%=%=%=%=%=%=%=%=%=%
+  
 %=%=%=%=%
 2.1 Math
 %=%=%=%=%
@@ -108,31 +108,77 @@ absSingle
 addSingle
   func: x+y -> z
   mem:  6 bytes
-  Note: special cases not done
 ameanSingle
   func: (x+y)/2 -> z
   mem:  6 bytes
-  Note: special cases not done
 subSingle
   func: x-y -> z
   mem:  10 bytes
-  Note: special cases not done
 rsubSingle
   func: -x+y -> z
   mem:  10 bytes
-  Note: special cases not done
 invSingle
   func: 1/x -> z
   mem:  5 bytes
 divSingle
   func: x/y -> z
   mem:  5 bytes
+div255Single
+  func: x/255 -> z
+  mem:  None
+  Note: This is an optimized, special purpose division.
+div85Single
+  func: x/85 -> z
+  mem:  None
+  Note: This is an optimized, special purpose division.
+div51Single
+  func: x/51 -> z
+  mem:  None
+  Note: This is an optimized, special purpose division.
+div17Single
+  func: x/17 -> z
+  mem:  None
+  Note: This is an optimized, special purpose division.
+div15Single
+  func: x/15 -> z
+  mem:  None
+  Note: This is an optimized, special purpose division.
+div5Single
+  func: x/5 -> z
+  mem:  None
+  Note: This is an optimized, special purpose division.
+div3Single
+  func: x/3 -> z
+  mem:  None
+  Note: This is an optimized, special purpose division.
 mulSingle
   func: x*y -> z
   mem:  9 bytes
+mul10Single
+  func: x*10 -> z
+  mem:  None
+  Note: This is an optimized, special purpose multiplication.
+mulSingle_p375
+  func: x*.375 -> z
+  mem:  None
+  Note: This is an optimized, special purpose multiplication.
+        Used in the bgi2 routine
+mulSingle_p34375
+  func: x*.34375 -> z
+  mem:  None
+  Note: This is an optimized, special purpose multiplication.
+        Used in the bgi routine
+mulSingle_p041015625
+  func: x*.041015625 -> z
+  mem:  None
+  Note: This is an optimized, special purpose multiplication.
+        Used in the bgi routine
 sqrtSingle
   func: sqrt(x) -> z
-  mem:  None
+  mem:  3 bytes
+geomeanSingle
+  func: sqrt(x*y) -> z
+  mem:  9 bytes
 cmpSingle
   func: compare x to y, no output
         return z flag if x=y (error is up to the last 2 bits)
@@ -144,69 +190,317 @@ negSingle
   mem:  None
 lgSingle
   func: lg(x) -> z
-  mem:  25 bytes
+  mem:  27 bytes
   note: base 2 logarithm
 lnSingle
   func: ln(x) -> z
-  mem:  25 bytes
+  mem:  27 bytes
   note: base e logarithm; the natural logarithm
 log10Single
   func: log10(x) -> z
-  mem:  25 bytes
+  mem:  27 bytes
   note: base 10 logarithm
 logSingle
   func: log_y(x) -> z
-  mem:  29 bytes
+  mem:  27 bytes
   note: base y logarithm
-exp2Single
+pow2Single
   func: 2^x -> z
-  mem:  11 bytes
+  mem:  18 bytes
 expSingle
   func: e^x -> z
-  mem:  11 bytes
-exp10Single
+  mem:  18 bytes
+pow10Single
   func: 10^x -> z
-  mem:  11 bytes
+  mem:  18 bytes
 powSingle
   func: x^y -> z
-  mem:  25 bytes
+  mem:  18 bytes
   note: makes a call to lgSingle, which is why we need 25 bytes
+acosSingle
+  func: acos(x) -> z
+  mem:  31 bytes
+acoshSingle
+  func: acosh(x) -> z
+  mem:  31 bytes
+asinSingle
+  func: asin(x) -> z
+  mem:  31 bytes
+asinhSingle
+  func: asinh(x) -> z
+  mem:  31 bytes
+atanSingle
+  func: atan(x) -> z
+  mem:  31 bytes
+atanhSingle
+  func: atanh(x) -> z
+  mem:  31 bytes
+tanSingle:
+  func: tan(x) -> z
+  mem:  27 bytes
 tanhSingle
   func: tanh(x) -> z
-  mem:  13 bytes
+  mem:  18 bytes
+sinSingle:
+  func: sin(x) -> z
+  mem:  23 bytes
 sinhSingle
   func: sinh(x) -> z
-  mem:  17 bytes
+  mem:  18 bytes
+cosSingle:
+  func: cos(x) -> z
+  mem:  23 bytes
 coshSingle
   func: cosh(x) -> z
-  mem:  17 bytes
+  mem:  18 bytes
 randSingle
   func: rand[0,1) -> z
   mem:  None
-sinSingle:
-  func: sin(x) -> z
-  mem:  26 bytes
-cosSingle:
-  func: cos(x) -> z
-  mem:  26 bytes
-tanSingle:
-  func: tan(x) -> z
-  mem:  26 bytes
+bg2iSingle
+  func: 1/BG(x,y) -> z
+  mem:  27 bytes
+  Note: This calculates the Borchardt-Gauss mean, to less precision than bgiSingle
+        Used to compute ln(x)
+bgiSingle
+  func: 1/BG(x,y) -> z
+  mem:  31 bytes
+  Note: This calculates the Borchardt-Gauss mean.
+        Used to compute inverse trig and hyperbolic functions.
 %=%=%=%=%=%
 2.2 Convert
 %=%=%=%=%=%
-single2string
+single2str
   func: string(x) -> z
-  mem:  20 bytes
+  mem:  19 bytes
 single2ti
   func: tifloat(x) -> z
-  mem:  20 bytes
+  mem:  19 bytes
 str2single
   func: float(str) -> z
-  mem:  29 bytes
+  mem:  9 bytes
   note: 'str' is an ASCII string, except $1B is the char for the exponential e, $1A is the negative sign.
+ti2single
+  NOT YET IMPLEMENTED
+single2char
+  func: Converts a single-precision float to an 8-bit uint in the A register
+
+%=%=%=%=%=%=%=%=%=%=%=%
+3.0 Extended Precision
+%=%=%=%=%=%=%=%=%=%=%=%
+%=%=%=%=%
+3.1 Math
+%=%=%=%=%
+xadd
+  func:  x+y -> z
+  mem:   30 bytes
+xamean
+  func:  (x+y)/2 -> z
+  mem:   bytes
+xsub
+  func:  x-y -> z
+  mem:   bytes
+xrsub
+  func:  y-x -> z
+  mem:   bytes
+xdiv
+  func:  x/y -> z
+  mem:   bytes
+  
+xinv     NOT YET IMPLMENTED
+  func:  1/x -> z
+  mem:   bytes
+
+xmul
+  func:  x*y -> z
+  mem:   bytes
+
+xmul10
+  func:  x*10 -> z
+  mem:   bytes
+
+xsqrt
+  func:  sqrt(x) -> z
+  mem:   bytes
+
+xgeomean
+  func:  sqrt(x*y) -> z
+  mem:   bytes
+  
+xcmp     NOT YET IMPLMENTED
+  func: compare x to y, no output
+        return z flag if x=y (error is up to the last 2 bits)
+        return c flag if x<y
+        return nc if x>=y
+  mem:  None
+
+xabs     NOT YET IMPLMENTED
+  func:  |x| -> z
+  mem:   bytes
+
+xneg     NOT YET IMPLMENTED
+  func:  -x -> z
+  mem:   bytes
+
+xexp     NOT YET IMPLMENTED
+  func:  e^x -> z
+  mem:   bytes
+
+xpow2    NOT YET IMPLMENTED
+  func:  2^x -> z
+  mem:   bytes
+
+xpow10   NOT YET IMPLMENTED
+  func:  10^x -> z
+  mem:   bytes
+
+xpow     NOT YET IMPLMENTED
+  func:  x^y -> z
+  mem:   bytes
+
+xln
+  func:  ln(x) -> z
+  mem:   bytes
+
+xlg      NOT YET IMPLMENTED
+  func:  log2(x) -> z
+  mem:   bytes
+
+xlog10   NOT YET IMPLMENTED
+  func:  log10(x) -> z
+  mem:   bytes
+
+xlog     NOT YET IMPLMENTED
+  func:  log_y(x) -> z
+  mem:   bytes
+
+xacos
+  func:  acos(x) -> z
+  mem:   bytes
+
+xacosh
+  func:  acosh(x) -> z
+  mem:   bytes
+
+xasin
+  func:  asin(x) -> z
+  mem:   bytes
+
+xasinh
+  func:  asinhx) -> z
+  mem:   bytes
+
+xatan
+  func:  atan(x) -> z
+  mem:   bytes
+
+xatanh
+  func:  atanh(x) -> z
+  mem:   bytes
+
+xcos     NOT YET IMPLMENTED
+  func:  cos(x) -> z
+  mem:   bytes
+
+xcosh    NOT YET IMPLMENTED
+  func:  cosh(x) -> z
+  mem:   bytes
+
+xsin     NOT YET IMPLMENTED
+  func:  sin(x) -> z
+  mem:   bytes
+
+xsinh    NOT YET IMPLMENTED
+  func:  sinh(x) -> z
+  mem:   bytes
+
+xtan     NOT YET IMPLMENTED
+  func:  tan(x) -> z
+  mem:   bytes
+
+xtanh    NOT YET IMPLMENTED
+  func:  tanh(x) -> z
+  mem:   bytes
+
+xbg
+  func:  1/BG(x,y) -> z
+  mem:   bytes
+
+xrand
+  func:  rand -> z
+  mem:   bytes
+  Notes: Generates a pseudo-random float on [0,1)
+%=%=%=%=%=%=%=%
+3.2 Conversion
+%=%=%=%=%=%=%=%
+xtostr
+  func:  str(x) -> z
+  mem:   bytes
+  Notes: converts the foat to a string
+
+xtoTI    NOT YET IMPLMENTED
+  func:  TI(x) -> z
+  mem:   bytes
+  Notes: converts the float to a TI float
+
+strtox   NOT YET IMPLMENTED
+  func:  xfloat(x) -> z
+  mem:   bytes
+  Notes: converts a string to a float
+
+TItox    NOT YET IMPLMENTED
+  func:  xfloat(TI x) -> z
+  mem:   bytes
+  Notes: converts a TI formatted float to an extended precision float
+
+%=%=%=%=%=%=%=%=%=%
+4.0 Other Routines
+%=%=%=%=%=%=%=%=%=%
+iconstSingle
+  `call iconstSingle \ .db x`
+  Returns a pointer in HL to a constant
+xconst
+  `xconst \ .db x`
+  Returns a pointer in HL to a constant
+pushpop
+  `call pushpop`
+  This pushes HL,DE,BC, and AF onto the stack
+  It then inserts a return address so that when your routine ends, the registers are restored before the final return.
+mul16
+  BC*DE -> DEHL
+mul24
+  BDE*CHL -> HLBCDE
+mul32
+  DEHL*BCIX -> z0_32
+mul64
+  Multiplies two 64-bit ints.
+  xOP1*xOP2 -> xOP3+16
+C_Times_BDE
+  C*BDE -> CAHL
+rand
+  HL is a pseudo-random number on [0,65535]
+randInit
+  Initializes the rand seeds.
+sqrtHL
+  sqrt(HL)->A
+mov4
+  moves 4 bytes from HL to DE
+mov10
+  moves 10 bytes from HL to DE
+swapxOP2xOP3
+  swaps xOP2 and xOP3
+diRestore
+  `call diRestore`
+  Disables interrupts, but sets up a return call that restores the interrupts when your routine exits.
+sqrt32
+sqrt64
+divide16
+div32_16
+div32_32
+div64_32
+div64
+
 %=%=%=%=%=%=%
-3.0 Examples
+5.0 Examples
 %=%=%=%=%=%=%
   Compute pi/e and output the number on a TI-OS:
     ld hl,const_pi
@@ -217,8 +511,21 @@ str2single
     ld l,c
     call single2str
     bcall(_PutS)
+%=%=%=%=%
+6.0 To Do
+%=%=%=%=%
+ti2single
+
+%=%=%=%=%
+7.0 Bugs
+%=%=%=%=%
+  ameanSingle, technically works, but certain cases will fail.
+  geomeanSingle, technically works, but certain cases will fail. Plus there is a better implementation.
+  xamean, technically works, but certain cases will fail.
+  xgeomean, technically works, but certain cases will fail. Plus there is a better implementation.
+
 %=%=%=%
-4.0 Log
+8.0 Log
 %=%=%=%
 26 November 2015
     Fixed negSingle. Apparently I made that routine before a standard format.
@@ -242,17 +549,3 @@ str2single
     Fixed the sqrtSingle routine to the non-cheating way.
 13 December 2015
     Added in sine, cosine, and tangent. The implementation is terrible (Maclaurin Series).
-%=%=%=%=%
-5.0 To Do
-%=%=%=%=%
-ti2single
-
-%=%=%=%=%
-6.0 Bugs
-%=%=%=%=%
-  str2single does not yet evaluate the engineering E and it's following exponent.
-  single2str crashes on certain inputs.
-  ameanSingle, technically works, but certain cases will fail.
-  geomeanSingle, technically works, but certain cases will fail. Plus there is a better implementation.
-  divSingle was not properly detecting underflow/overflow so the code is currently removed.
-  addSingle seems to be failing for largely differing numbers. ex (55.7^2)+1
