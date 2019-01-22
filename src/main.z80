@@ -78,12 +78,16 @@ singfloats:
 extfloats:
 #include "../z80float/extended/xtostr.z80"
 #include "../z80float/extended/xbg.z80"
+#include "../z80float/extended/xabs.z80"
+#include "../z80float/extended/xcmp.z80"
+#include "../z80float/extended/xneg.z80"
 #include "../z80float/extended/xgeomean.z80"
 #include "../z80float/extended/xsqrt.z80"
 ;#include "../z80float/extended/sqrt/sqrt16.z80"
 #include "../z80float/extended/sqrt/sqrt32.z80"
 #include "../z80float/extended/sqrt/sqrt64.z80"
 #include "../z80float/extended/xdiv.z80"
+#include "../z80float/extended/xinv.z80"
 #include "../z80float/extended/div/div32.z80"
 #include "../z80float/extended/div/div64.z80"
 #include "../z80float/extended/xmul.z80"
@@ -122,10 +126,6 @@ xrou:
 strtox:
 TItox:
 xtoTI:
-xabs:
-xcmp:
-xinv:
-xneg:
 xexp:
 xpow2:
 xpow10:
