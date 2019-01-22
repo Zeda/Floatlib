@@ -113,6 +113,9 @@ extfloats:
 #include "../z80float/extended/xacos.z80"
 #include "../z80float/extended/xacosh.z80"
 #include "../z80float/extended/xrand.z80"
+#include "../z80float/extended/xexp.z80"
+#include "../z80float/extended/xpow10.z80"
+#include "../z80float/extended/xpow2.z80"
 #include "../z80float/extended/rand.z80"
 xrou:
 #include "../z80float/extended/routines.z80"
@@ -126,9 +129,6 @@ xrou:
 strtox:
 TItox:
 xtoTI:
-xexp:
-xpow2:
-xpow10:
 xpow:
 xlg:
 xlog10:
@@ -140,7 +140,7 @@ xsinh:
 xtan:
 xtanh:
 xmul10:
-xconst:
+iconstx:
   ret
 
 

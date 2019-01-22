@@ -57,7 +57,7 @@ jumptable:
   jp ti2single
   jp single2char
 ;extended precision routines
-  jp xconst
+  jp iconstx
   jp xadd
   jp xamean
   jp xsub
