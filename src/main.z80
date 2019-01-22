@@ -96,7 +96,7 @@ extfloats:
 #include "../z80float/extended/mul/mul16.z80"
 #include "../z80float/extended/mul/mul32.z80"
 #include "../z80float/extended/mul/mul64.z80"
-#include "../z80float/extended/mul/fpOP1mul10.z80"
+#include "../z80float/extended/mul/xOP1mul10.z80"
 #include "../z80float/extended/mul/xmul3.z80"
 #include "../z80float/extended/mul/xmul5.z80"
 #include "../z80float/extended/mul/xmul7.z80"
@@ -106,6 +106,9 @@ extfloats:
 #include "../z80float/extended/mul/xmul17.z80"
 #include "../z80float/extended/mul/xmul31.z80"
 #include "../z80float/extended/xln.z80"
+#include "../z80float/extended/xlg.z80"
+#include "../z80float/extended/xlog10.z80"
+#include "../z80float/extended/xlog.z80"
 #include "../z80float/extended/xatan.z80"
 #include "../z80float/extended/xatanh.z80"
 #include "../z80float/extended/xasin.z80"
@@ -116,6 +119,7 @@ extfloats:
 #include "../z80float/extended/xexp.z80"
 #include "../z80float/extended/xpow10.z80"
 #include "../z80float/extended/xpow2.z80"
+#include "../z80float/extended/xpow.z80"
 #include "../z80float/extended/rand.z80"
 xrou:
 #include "../z80float/extended/routines.z80"
@@ -129,10 +133,6 @@ xrou:
 strtox:
 TItox:
 xtoTI:
-xpow:
-xlg:
-xlog10:
-xlog:
 xcosh:
 xcos:
 xsin:
