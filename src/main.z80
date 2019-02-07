@@ -100,6 +100,7 @@ extfloats:
 #include "../z80float/extended/mul/xmul3.z80"
 #include "../z80float/extended/mul/xmul5.z80"
 #include "../z80float/extended/mul/xmul7.z80"
+#include "../z80float/extended/mul/xmul10.z80"
 #include "../z80float/extended/mul/xmul11.z80"
 #include "../z80float/extended/mul/xmul13.z80"
 #include "../z80float/extended/mul/xmul15.z80"
@@ -139,7 +140,6 @@ xsin:
 xsinh:
 xtan:
 xtanh:
-xmul10:
 iconstx:
   ret
 
