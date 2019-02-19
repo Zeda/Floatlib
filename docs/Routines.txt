@@ -1,5 +1,7 @@
-Single Precision Floating Point Routines for the Z80
+Routines
+Z80 Floating Point Library
 Zeda Thomas (xedaelnara@gmail.com)
+
 %=%=%=%=%=%=%=%=%=%=%
 0.0 Table of Contents
 %=%=%=%=%=%=%=%=%=%=%
@@ -80,7 +82,7 @@ const_e_inv:  .db $B2,$5A,$3C,$7E
 %=%=%=%=%=%=%=%=%=%=%
 2.0 Single Precision
 %=%=%=%=%=%=%=%=%=%=%
-  
+
 %=%=%=%=%
 2.1 Math
 %=%=%=%=%
@@ -287,8 +289,8 @@ xrsub
 xdiv
   func:  x/y -> z
   mem:   bytes
-  
-xinv     NOT YET IMPLMENTED
+
+xinv
   func:  1/x -> z
   mem:   bytes
 
@@ -307,35 +309,35 @@ xsqrt
 xgeomean
   func:  sqrt(x*y) -> z
   mem:   bytes
-  
-xcmp     NOT YET IMPLMENTED
+
+xcmp
   func: compare x to y, no output
         return z flag if x=y (error is up to the last 2 bits)
         return c flag if x<y
         return nc if x>=y
   mem:  None
 
-xabs     NOT YET IMPLMENTED
+xabs
   func:  |x| -> z
   mem:   bytes
 
-xneg     NOT YET IMPLMENTED
+xneg
   func:  -x -> z
   mem:   bytes
 
-xexp     NOT YET IMPLMENTED
+xexp
   func:  e^x -> z
   mem:   bytes
 
-xpow2    NOT YET IMPLMENTED
+xpow2
   func:  2^x -> z
   mem:   bytes
 
-xpow10   NOT YET IMPLMENTED
+xpow10
   func:  10^x -> z
   mem:   bytes
 
-xpow     NOT YET IMPLMENTED
+xpow
   func:  x^y -> z
   mem:   bytes
 
@@ -343,15 +345,15 @@ xln
   func:  ln(x) -> z
   mem:   bytes
 
-xlg      NOT YET IMPLMENTED
+xlg
   func:  log2(x) -> z
   mem:   bytes
 
-xlog10   NOT YET IMPLMENTED
+xlog10
   func:  log10(x) -> z
   mem:   bytes
 
-xlog     NOT YET IMPLMENTED
+xlog
   func:  log_y(x) -> z
   mem:   bytes
 
@@ -424,7 +426,7 @@ xtoTI    NOT YET IMPLMENTED
   mem:   bytes
   Notes: converts the float to a TI float
 
-strtox   NOT YET IMPLMENTED
+strtox
   func:  xfloat(x) -> z
   mem:   bytes
   Notes: converts a string to a float
@@ -509,6 +511,10 @@ ti2single
 %=%=%=%
 8.0 Log
 %=%=%=%
+Sometime around January 2019
+    Put it up on GitHub, it now uses the z80float library (also on GitHub).
+    It now includes extended-precision floats and a more complete set of routines :)
+
 26 November 2015
     Fixed negSingle. Apparently I made that routine before a standard format.
     Overhauled single2str. Outputs are much prettier, and include rounding.
