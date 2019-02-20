@@ -123,6 +123,7 @@ extfloats:
 #include "../z80float/extended/xpow.z80"
 #include "../z80float/extended/rand.z80"
 #include "../z80float/extended/strtox.z80"
+#include "../z80float/extended/routines/ascii_to_uint8.z80"
 #include "../z80float/extended/routines/sla64.z80"
 xrou:
 #include "../z80float/extended/routines.z80"
