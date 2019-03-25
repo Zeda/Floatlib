@@ -128,23 +128,20 @@ extfloats:
 #include "../z80float/extended/xpow.z80"
 #include "../z80float/extended/rand.z80"
 #include "../z80float/extended/strtox.z80"
+#include "../z80float/extended/TItox.z80"
+#include "../z80float/extended/xtoTI.z80"
+#include "../z80float/extended/xcos.z80"
+#include "../z80float/extended/xsin.z80"
+#include "../z80float/extended/xtan.z80"
 #include "../z80float/extended/routines/ascii_to_uint8.z80"
 #include "../z80float/extended/routines/sla64.z80"
 #include "../z80float/extended/routines/rl64.z80"
-xrou:
 #include "../z80float/extended/routines.z80"
-.echo "routines: ",$-xrou
 ;#include "../z80float/extended/data.z80"
 #include "../z80float/extended/tables.z80"
 #include "../z80float/extended/constants.z80"
 .echo " Extended precision: ",$-extfloats," bytes"
 
-
-TItox:
-xtoTI:
-xcos:
-xsin:
-xtan:
 iconstx:
   ret
 
