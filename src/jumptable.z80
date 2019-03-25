@@ -120,3 +120,7 @@ jumptable:
   jp mov10
   jp swapxOP2xOP3
   jp diRestore
+
+
+  jp fpartSingle
+  jp sqrtHLIX

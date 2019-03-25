@@ -74,6 +74,7 @@ singfloats:
 #include "../z80float/single/negSingle.z80"
 #include "../z80float/single/ti2single.z80"
 #include "../z80float/single/single2char.z80"
+#include "../z80float/single/fpartSingle.z80"
 .echo " Single precision: ",$-singfloats," bytes"
 extfloats:
 #include "../z80float/extended/xtostr.z80"
@@ -84,6 +85,7 @@ extfloats:
 #include "../z80float/extended/xgeomean.z80"
 #include "../z80float/extended/xsqrt.z80"
 ;#include "../z80float/extended/sqrt/sqrt16.z80"
+#include "../z80float/extended/sqrt/sqrtHLIX.z80"
 #include "../z80float/extended/sqrt/sqrt32.z80"
 #include "../z80float/extended/sqrt/sqrt64.z80"
 #include "../z80float/extended/xdiv.z80"
@@ -128,6 +130,7 @@ extfloats:
 #include "../z80float/extended/strtox.z80"
 #include "../z80float/extended/routines/ascii_to_uint8.z80"
 #include "../z80float/extended/routines/sla64.z80"
+#include "../z80float/extended/routines/rl64.z80"
 xrou:
 #include "../z80float/extended/routines.z80"
 .echo "routines: ",$-xrou
