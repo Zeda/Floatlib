@@ -112,10 +112,13 @@ extfloats:
 #include "../z80float/extended/xlog.z80"
 #include "../z80float/extended/xatan.z80"
 #include "../z80float/extended/xatanh.z80"
+#include "../z80float/extended/xtanh.z80"
 #include "../z80float/extended/xasin.z80"
 #include "../z80float/extended/xasinh.z80"
+#include "../z80float/extended/xsinh.z80"
 #include "../z80float/extended/xacos.z80"
 #include "../z80float/extended/xacosh.z80"
+#include "../z80float/extended/xcosh.z80"
 #include "../z80float/extended/xrand.z80"
 #include "../z80float/extended/xexp.z80"
 #include "../z80float/extended/xpow10.z80"
@@ -136,12 +139,9 @@ xrou:
 
 TItox:
 xtoTI:
-xcosh:
 xcos:
 xsin:
-xsinh:
 xtan:
-xtanh:
 iconstx:
   ret
 
