@@ -355,18 +355,18 @@ m_05: .db 1 \ .dw jumptable+294 \ .db "rand",$1C,"HL",0,0
 m_06: .db 1 \ .dw jumptable+297 \ .db "Initialize rand",0,0
 m_07: .db 1 \ .dw jumptable+300 \ .db $10,"(HL)",$1C,"A, HL=remainder",0,0
 m_08: .db 1 \ .dw jumptable+303 \ .db $10,"(.HLDE)",$1C,"(xOP2+8)",0,1 \ .dw locations
-m_07: .db 1 \ .dw jumptable+342 \ .db $10,"(HLIX)",$1C,"DE, AHL=remainder",0,0
-m_09: .db 1 \ .dw jumptable+306 \ .db "sqrt64",0,0
-m_0A: .db 1 \ .dw jumptable+309 \ .db "div16",0,0
-m_0B: .db 1 \ .dw jumptable+312 \ .db "div32_16",0,0
-m_0C: .db 1 \ .dw jumptable+315 \ .db "div32",0,0
-m_0D: .db 1 \ .dw jumptable+318 \ .db "div64_32",0,0
-m_0E: .db 1 \ .dw jumptable+321 \ .db "div64",0,0
-m_0F: .db 1 \ .dw jumptable+324 \ .db "mov4",0,0
-m_10: .db 1 \ .dw jumptable+327 \ .db "mov10",0,0
-m_11: .db 1 \ .dw jumptable+330 \ .db "swap xOP2 and xOP3",0,0
-m_12: .db 1 \ .dw jumptable+3 \ .db "pushpop, restores regs on RET",0,0
-m_13: .db 1 \ .dw jumptable+333 \ .db "di, restores interrupts on RET",0,0
+m_09: .db 1 \ .dw jumptable+342 \ .db $10,"(HLIX)",$1C,"DE, AHL=remainder",0,0
+m_0A: .db 1 \ .dw jumptable+306 \ .db "sqrt64",0,0
+m_0B: .db 1 \ .dw jumptable+309 \ .db "div16",0,0
+m_0C: .db 1 \ .dw jumptable+312 \ .db "div32_16",0,0
+m_0D: .db 1 \ .dw jumptable+315 \ .db "div32",0,0
+m_0E: .db 1 \ .dw jumptable+318 \ .db "div64_32",0,0
+m_0F: .db 1 \ .dw jumptable+321 \ .db "div64",0,0
+m_10: .db 1 \ .dw jumptable+324 \ .db "mov4",0,0
+m_11: .db 1 \ .dw jumptable+327 \ .db "mov10",0,0
+m_12: .db 1 \ .dw jumptable+330 \ .db "swap xOP2 and xOP3",0,0
+m_13: .db 1 \ .dw jumptable+3 \ .db "pushpop, restores regs on RET",0,0
+m_14: .db 1 \ .dw jumptable+333 \ .db "di, restores interrupts on RET",0,0
 
 
 locations:
