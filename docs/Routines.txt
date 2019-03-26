@@ -264,7 +264,9 @@ str2single
   mem:  9 bytes
   note: 'str' is an ASCII string, except $1B is the char for the exponential e, $1A is the negative sign.
 ti2single
-  NOT YET IMPLEMENTED
+  func:  single(TI x) -> z
+  mem:   bytes
+  Notes: converts a TI formatted float to a single precision float
 single2char
   func: Converts a single-precision float to an 8-bit uint in the A register
 
@@ -381,27 +383,27 @@ xatanh
   func:  atanh(x) -> z
   mem:   bytes
 
-xcos     NOT YET IMPLMENTED
+xcos
   func:  cos(x) -> z
   mem:   bytes
 
-xcosh    NOT YET IMPLMENTED
+xcosh
   func:  cosh(x) -> z
   mem:   bytes
 
-xsin     NOT YET IMPLMENTED
+xsin
   func:  sin(x) -> z
   mem:   bytes
 
-xsinh    NOT YET IMPLMENTED
+xsinh
   func:  sinh(x) -> z
   mem:   bytes
 
-xtan     NOT YET IMPLMENTED
+xtan
   func:  tan(x) -> z
   mem:   bytes
 
-xtanh    NOT YET IMPLMENTED
+xtanh
   func:  tanh(x) -> z
   mem:   bytes
 
@@ -421,7 +423,7 @@ xtostr
   mem:   bytes
   Notes: converts the foat to a string
 
-xtoTI    NOT YET IMPLMENTED
+xtoTI
   func:  TI(x) -> z
   mem:   bytes
   Notes: converts the float to a TI float
@@ -431,7 +433,7 @@ strtox
   mem:   bytes
   Notes: converts a string to a float
 
-TItox    NOT YET IMPLMENTED
+TItox
   func:  xfloat(TI x) -> z
   mem:   bytes
   Notes: converts a TI formatted float to an extended precision float
@@ -496,11 +498,6 @@ div64
     call single2str
     bcall(_PutS)
 %=%=%=%=%
-6.0 To Do
-%=%=%=%=%
-ti2single
-
-%=%=%=%=%
 7.0 Bugs
 %=%=%=%=%
   ameanSingle, technically works, but certain cases will fail.
@@ -511,6 +508,13 @@ ti2single
 %=%=%=%
 8.0 Log
 %=%=%=%
+26 March 2019
+  Updated routines from z80float with various bug fixes.
+  Updated with new routines from z80float:
+    ti2single, TItox, xtoTI, xcosh, xcos, xsinh, xsin, xtanh, and xtan.
+  Optimized the readme data. Since many of the routines in the single- and
+  extended-precision routines have the same description, I added a control
+  token to in the text display to reference external text.
 Sometime around January 2019
     Put it up on GitHub, it now uses the z80float library (also on GitHub).
     It now includes extended-precision floats and a more complete set of routines :)
