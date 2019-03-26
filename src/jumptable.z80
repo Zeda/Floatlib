@@ -123,4 +123,5 @@ jumptable:
 
 
   jp fpartSingle
+  jp xfpart
   jp sqrtHLIX
