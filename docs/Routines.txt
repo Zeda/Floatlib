@@ -281,36 +281,36 @@ xadd
   mem:   30 bytes
 xamean
   func:  (x+y)/2 -> z
-  mem:   bytes
+  mem:   30 bytes
 xsub
   func:  x-y -> z
-  mem:   bytes
+  mem:   30 bytes
 xrsub
   func:  y-x -> z
-  mem:   bytes
+  mem:   30 bytes
 xdiv
   func:  x/y -> z
-  mem:   bytes
+  mem:   30 bytes
 
 xinv
   func:  1/x -> z
-  mem:   bytes
+  mem:  30  bytes
 
 xmul
   func:  x*y -> z
-  mem:   bytes
+  mem:   60 bytes
 
 xmul10
   func:  x*10 -> z
-  mem:   bytes
+  mem:   20 bytes
 
 xsqrt
   func:  sqrt(x) -> z
-  mem:   bytes
+  mem:   20 bytes
 
 xgeomean
   func:  sqrt(x*y) -> z
-  mem:   bytes
+  mem:   60 bytes
 
 xcmp
   func: compare x to y, no output
@@ -321,121 +321,121 @@ xcmp
 
 xabs
   func:  |x| -> z
-  mem:   bytes
+  mem:   None
 
 xneg
   func:  -x -> z
-  mem:   bytes
+  mem:   None
 
 xexp
   func:  e^x -> z
-  mem:   bytes
+  mem:   72 bytes
 
 xpow2
   func:  2^x -> z
-  mem:   bytes
+  mem:   72 bytes
 
 xpow10
   func:  10^x -> z
-  mem:   bytes
+  mem:   72 bytes
 
 xpow
   func:  x^y -> z
-  mem:   bytes
+  mem:   72 bytes
 
 xln
   func:  ln(x) -> z
-  mem:   bytes
+  mem:   162 bytes
 
 xlg
   func:  log2(x) -> z
-  mem:   bytes
+  mem:   162 bytes
 
 xlog10
   func:  log10(x) -> z
-  mem:   bytes
+  mem:   162 bytes
 
 xlog
   func:  log_y(x) -> z
-  mem:   bytes
+  mem:   172 bytes
 
 xacos
   func:  acos(x) -> z
-  mem:   bytes
+  mem:   162 bytes
 
 xacosh
   func:  acosh(x) -> z
-  mem:   bytes
+  mem:   162 bytes
 
 xasin
   func:  asin(x) -> z
-  mem:   bytes
+  mem:   162 bytes
 
 xasinh
   func:  asinhx) -> z
-  mem:   bytes
+  mem:   162 bytes
 
 xatan
   func:  atan(x) -> z
-  mem:   bytes
+  mem:   162 bytes
 
 xatanh
   func:  atanh(x) -> z
-  mem:   bytes
+  mem:   162 bytes
 
 xcos
   func:  cos(x) -> z
-  mem:   bytes
+  mem:   90 bytes
 
 xcosh
   func:  cosh(x) -> z
-  mem:   bytes
+  mem:   92 bytes
 
 xsin
   func:  sin(x) -> z
-  mem:   bytes
+  mem:   90 bytes
 
 xsinh
   func:  sinh(x) -> z
-  mem:   bytes
+  mem:   92 bytes
 
 xtan
   func:  tan(x) -> z
-  mem:   bytes
+  mem:   100 bytes
 
 xtanh
   func:  tanh(x) -> z
-  mem:   bytes
+  mem:   92 bytes
 
 xbg
   func:  1/BG(x,y) -> z
-  mem:   bytes
+  mem:   142 bytes
 
 xrand
   func:  rand -> z
-  mem:   bytes
+  mem:   10 bytes
   Notes: Generates a pseudo-random float on [0,1)
 %=%=%=%=%=%=%=%
 3.2 Conversion
 %=%=%=%=%=%=%=%
 xtostr
   func:  str(x) -> z
-  mem:   bytes
-  Notes: converts the foat to a string
+  mem:   92 bytes
+  Notes: converts the float to a string
 
 xtoTI
   func:  TI(x) -> z
-  mem:   bytes
+  mem:   92 bytes
   Notes: converts the float to a TI float
 
 strtox
   func:  xfloat(x) -> z
-  mem:   bytes
+  mem:   60 bytes
   Notes: converts a string to a float
 
 TItox
   func:  xfloat(TI x) -> z
-  mem:   bytes
+  mem:   60 bytes
   Notes: converts a TI formatted float to an extended precision float
 
 %=%=%=%=%=%=%=%=%=%
