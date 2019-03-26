@@ -355,6 +355,7 @@ m_05: .db 1 \ .dw jumptable+294 \ .db "rand",$1C,"HL",0,0
 m_06: .db 1 \ .dw jumptable+297 \ .db "Initialize rand",0,0
 m_07: .db 1 \ .dw jumptable+300 \ .db $10,"(HL)",$1C,"A, HL=remainder",0,0
 m_08: .db 1 \ .dw jumptable+303 \ .db $10,"(.HLDE)",$1C,"(xOP2+8)",0,1 \ .dw locations
+m_07: .db 1 \ .dw jumptable+342 \ .db $10,"(HLIX)",$1C,"DE, AHL=remainder",0,0
 m_09: .db 1 \ .dw jumptable+306 \ .db "sqrt64",0,0
 m_0A: .db 1 \ .dw jumptable+309 \ .db "div16",0,0
 m_0B: .db 1 \ .dw jumptable+312 \ .db "div32_16",0,0
@@ -388,7 +389,7 @@ xroutines:
 .dw (rx_04-$-2)/2
 .dw rs_00,rs_01,rs_02,rs_03,rx_04,rx_05,rx_06,rx_07,rx_08,rx_09,rx_0A,rx_0B,rx_0C,rx_0D,rx_0E,rx_0F
 .dw rx_10,rx_11,rx_12,rx_13,rx_14,rx_15,rx_16,rx_17,rx_18,rx_19,rx_1A,rx_1B,rx_1C,rx_1D,rx_1E,rx_1F
-.dw rx_20,rx_21,rx_22,rx_23,rx_24,rx_25,rx_26,rx_27,rx_28,rx_29,rx_2A,rx_2B
+.dw rx_20,rx_21,rx_22,rx_23,rx_24,rx_25,rx_26,rx_27,rx_28,rx_29,rx_2A,rx_2B,rx_2C
 rx_04: .db 1 \ .dw jumptable+159 \ .db 1 \ .dw str_0 \ .db 0,1 \ .dw rx_Constants
 rx_05: .db 1 \ .dw jumptable+162 \ .db 1 \ .dw str_1 \ .db 0,0
 rx_06: .db 1 \ .dw jumptable+165 \ .db 1 \ .dw str_2 \ .db 0,0
@@ -432,13 +433,14 @@ rx_28: .db 1 \ .dw jumptable+267 \ .db 1 \ .dw str_35 \ .db 0,0
 rx_29: .db 1 \ .dw jumptable+270 \ .db 1 \ .dw str_36 \ .db 0,0
 rx_2A: .db 1 \ .dw jumptable+273 \ .db 1 \ .dw str_37 \ .db 0,0
 rx_2B: .db 1 \ .dw jumptable+276 \ .db 1 \ .dw str_38 \ .db 0,0
+rx_2C: .db 1 \ .dw jumptable+339 \ .db 1 \ .dw str_39 \ .db 0,0
 
 routinesSingle:
 .dw (rs_00-$-2)/2
 .dw rs_00,rs_01,rs_02,rs_03,rs_04,rs_05,rs_06,rs_07,rs_08,rs_09,rs_0A,rs_0B,rs_0C,rs_0D,rs_0E,rs_0F
 .dw rs_10,rs_11,rs_12,rs_13,rs_14,rs_15,rs_16,rs_17,rs_18,rs_19,rs_1A,rs_1B,rs_1C,rs_1D,rs_1E,rs_1F
 .dw rs_20,rs_21,rs_22,rs_23,rs_24,rs_25,rs_26,rs_27,rs_28,rs_29,rs_2A,rs_2B,rs_2C,rs_2D,rs_2E,rs_2F
-.dw rs_30,rs_31,rs_32,rs_33,rs_34,rs_35,rs_36,rs_37
+.dw rs_30,rs_31,rs_32,rs_33,rs_34,rs_35,rs_36,rs_37,rs_38
 rs_00: .db 2,"HL points to x.",0,0
 rs_01: .db 2,"DE points to y.",0,0
 rs_02: .db 2,"BC points to output.",0,0
@@ -478,7 +480,7 @@ str_10:
   .db $10,"(xy)",$1C,"z",0,0
 rs_0F: .db 1 \ .dw jumptable+36
 str_11:
-  .db "x-y",$1C,"flags  (compare y to x)",0,0
+  .db "x-y",$1C,"flags",0,0
 rs_10: .db 1 \ .dw jumptable+39
 str_12:
   .db "abs(x)",$1C,"z",0,0
@@ -548,8 +550,8 @@ rs_25: .db 1 \ .dw jumptable+102
 str_33:
   .db "tanh(x)",$1C,"z",0,0
 
-rs_26: .db 1 \ .dw jumptable+105 \ .db "1/BG(x,y)",$1C,"z   for lnSingle",0,0
-rs_27: .db 1 \ .dw jumptable+108 \ .db "1/BG(x,y)",$1C,"z   General Purpose",0,0
+rs_26: .db 1 \ .dw jumptable+105 \ .db "1/BG(x,y)",$1C,"z special",0,0
+rs_27: .db 1 \ .dw jumptable+108 \ .db "1/BG(x,y)",$1C,"z general",0,0
 rs_28: .db 1 \ .dw jumptable+111 \ .db "x/255",$1C,"z",0,0
 rs_29: .db 1 \ .dw jumptable+114 \ .db "x/85",$1C,"z",0,0
 rs_2A: .db 1 \ .dw jumptable+117 \ .db "x/51",$1C,"z",0,0
@@ -577,6 +579,10 @@ rs_36: .db 1 \ .dw jumptable+153
 str_38:
   .db "float(x",$C1,"TI Float])",$1C,"z",0,0
 rs_37: .db 1 \ .dw jumptable+156 \ .db "uint8(x)",$1C,"z",0,0
+
+rs_38: .db 1 \ .dw jumptable+336
+str_39:
+  .db "x mod 1",$1C,"z",0,0
 
 rx_Constants:
 rs_Constants:
