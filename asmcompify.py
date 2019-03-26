@@ -4,11 +4,12 @@ data=f.readlines()
 f.close()
 d=[]
 for i in data:
-    i=i.split(';')[0]
-    i=i.split('=')[0]
-    i=i.strip()
-    if len(i)!=0:
-        d+=[': .db "'+i.upper()+',0" \ .dw '+i+'\n']
+    if not i.startswith(" ") and not i.startswith("#") and not i.startswith("."):
+      i=i.split(';')[0]
+      i=i.split('=')[0]
+      i=i.strip()
+      if len(i)!=0:
+          d+=[': .db "'+i.upper()+',0" \ .dw '+i+'\n']
 d=sorted(d)
 s='.dw '+str(len(d))+'\n'
 for i in range(len(d)):
