@@ -74,10 +74,6 @@ const_1:      .db $00,$00,$00,$80
 const_inf:    .db $00,$00,$40,$00
 const_NegInf: .db $00,$00,$C0,$00
 const_NAN:    .db $00,$00,$20,$00
-const_10:     .db $00,$00,$20,$83
-const_10_inv: .db $CD,$CC,$4C,$7C    ;roughly 0.1
-const_pi_inv: .db $83,$F9,$22,$7E
-const_e_inv:  .db $B2,$5A,$3C,$7E
 
 %=%=%=%=%=%=%=%=%=%=%
 2.0 Single Precision
@@ -441,11 +437,11 @@ TItox
 %=%=%=%=%=%=%=%=%=%
 4.0 Other Routines
 %=%=%=%=%=%=%=%=%=%
-iconstSingle
-  `call iconstSingle \ .db x`
+constSingle
+  `ld a,x \ call constSingle`
   Returns a pointer in HL to a constant
 xconst
-  `xconst \ .db x`
+  `ld a,x \ call xconst`
   Returns a pointer in HL to a constant
 pushpop
   `call pushpop`
@@ -511,7 +507,8 @@ div64
 26 March 2019
   Updated routines from z80float with various bug fixes.
   Updated with new routines from z80float:
-    ti2single, TItox, xtoTI, xcosh, xcos, xsinh, xsin, xtanh, and xtan.
+    xmod1, mod1Singe, xconst, ti2single, TItox, xtoTI, xcosh, xcos, xsinh,
+    xsin, xtanh, and xtan.
   Optimized the readme data. Since many of the routines in the single- and
   extended-precision routines have the same description, I added a control
   token to in the text display to reference external text.
