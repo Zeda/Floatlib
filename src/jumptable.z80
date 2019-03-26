@@ -1,5 +1,5 @@
 jumptable:
-  jp iconstSingle
+  jp constSingle
   jp pushpop
   jp addSingle
   jp ameanSingle
@@ -57,7 +57,7 @@ jumptable:
   jp ti2single
   jp single2char
 ;extended precision routines
-  jp iconstx
+  jp xconst
   jp xadd
   jp xamean
   jp xsub
@@ -122,6 +122,6 @@ jumptable:
   jp diRestore
 
 
-  jp fpartSingle
-  jp xfpart
+  jp mod1Single
+  jp xmod1
   jp sqrtHLIX
