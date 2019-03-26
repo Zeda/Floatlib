@@ -5,7 +5,7 @@ _PutS       = 450Ah
 _NewLine    = 452Eh
 _StoAns     = 4ABFh
 _RclAns     = 4AD7h
-OP1         = 8478h
+#define OP1 8478h
 #define bcall(x) rst 28h \ .dw x
 _JForceCmdNoChar=4027h
 .org $4000
@@ -132,10 +132,12 @@ extfloats:
 #include "../z80float/extended/xtoTI.z80"
 #include "../z80float/extended/xcos.z80"
 #include "../z80float/extended/xsin.z80"
+#include "../z80float/extended/xfpart.z80"
 #include "../z80float/extended/xtan.z80"
 #include "../z80float/extended/routines/ascii_to_uint8.z80"
 #include "../z80float/extended/routines/sla64.z80"
 #include "../z80float/extended/routines/rl64.z80"
+#include "../z80float/extended/routines/mov.z80"
 #include "../z80float/extended/routines.z80"
 ;#include "../z80float/extended/data.z80"
 #include "../z80float/extended/tables.z80"
