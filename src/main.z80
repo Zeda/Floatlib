@@ -76,7 +76,7 @@ singfloats:
 #include "../z80float/single/negSingle.z80"
 #include "../z80float/single/ti2single.z80"
 #include "../z80float/single/single2char.z80"
-#include "../z80float/single/fpartSingle.z80"
+#include "../z80float/single/mod1Single.z80"
 .echo " Single precision: ",$-singfloats," bytes"
 extfloats:
 #include "../z80float/extended/xtostr.z80"
@@ -134,7 +134,7 @@ extfloats:
 #include "../z80float/extended/xtoTI.z80"
 #include "../z80float/extended/xcos.z80"
 #include "../z80float/extended/xsin.z80"
-#include "../z80float/extended/xfpart.z80"
+#include "../z80float/extended/xmod1.z80"
 #include "../z80float/extended/xconst.z80"
 #include "../z80float/extended/xtan.z80"
 #include "../z80float/extended/routines/ascii_to_uint8.z80"
