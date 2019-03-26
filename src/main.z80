@@ -1,4 +1,6 @@
 ;Floatlib, a Z80 floating point library in an App
+#define iconstx xconsti
+
 #include "../z80float/single/single.inc"
 #include "../z80float/extended/float.inc"
 _PutS       = 450Ah
@@ -133,6 +135,7 @@ extfloats:
 #include "../z80float/extended/xcos.z80"
 #include "../z80float/extended/xsin.z80"
 #include "../z80float/extended/xfpart.z80"
+#include "../z80float/extended/xconst.z80"
 #include "../z80float/extended/xtan.z80"
 #include "../z80float/extended/routines/ascii_to_uint8.z80"
 #include "../z80float/extended/routines/sla64.z80"
@@ -143,10 +146,6 @@ extfloats:
 #include "../z80float/extended/tables.z80"
 #include "../z80float/extended/constants.z80"
 .echo " Extended precision: ",$-extfloats," bytes"
-
-iconstx:
-  ret
-
 
 .echo "Total:",$-4000h," bytes"
 

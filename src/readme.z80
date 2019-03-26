@@ -578,6 +578,7 @@ str_38:
   .db "float(x",$C1,"TI Float])",$1C,"z",0,0
 rs_37: .db 1 \ .dw jumptable+156 \ .db "uint8(x)",$1C,"z",0,0
 
+rx_Constants:
 rs_Constants:
 .dw (c_-$-2)/2,c_,c_00,c_01,c_02,c_03,c_04,c_05,c_06,c_07,c_08,c_09,c_0A
 c_: .db 2,"Constants. A is the ID",0
@@ -592,26 +593,6 @@ c_07: .db 2,"07",6,$1C,6,"1",0
 c_08: .db 2,"08",6,$1C,6,"+inf",0
 c_09: .db 2,"09",6,$1C,6,$1A,"inf",0
 c_0A: .db 2,"0A",6,$1C,6,"NAN",0
-rx_Constants:
-.dw 0
-;.dw (cx_-$-2)/2,cx_,cx_00,cx_01,cx_02,cx_03,cx_04,cx_05,cx_06,cx_07,cx_08,cx_09,cx_0A,cx_0B,cx_0C,cx_0D,cx_0E,cx_0F
-;cx_: .db 2,"Constants. A is the ID",0
-;cx_00: .db 2,"00",6,$1C,6,$C4,0 ;pi
-;cx_01: .db 2,"01",6,$1C,6,$DB,0 ;e
-;cx_02: .db 2,"02",6,$1C,6,$DB,"/ln(2)",0
-;cx_03: .db 2,"03",6,$1C,6,"log2(",$DB,")",0
-;cx_04: .db 2,"04",6,$1C,6,"ln(2)",0
-;cx_05: .db 2,"05",6,$1C,6,"log10(2)",0
-;cx_06: .db 2,"06",6,$1C,6,"log2(10)",0
-;cx_07: .db 2,"07",6,$1C,6,"0",0
-;cx_08: .db 2,"08",6,$1C,6,"1",0
-;cx_09: .db 2,"09",6,$1C,6,"+inf",0
-;cx_0A: .db 2,"0A",6,$1C,6,$1A,"inf",0
-;cx_0B: .db 2,"0B",6,$1C,6,"NAN",0
-;cx_0C: .db 2,"0C",6,$1C,6,"10",0
-;cx_0D: .db 2,"0D",6,$1C,6,"0.1",0
-;cx_0E: .db 2,"0E",6,$1C,6,"1/",$C4,0
-;cx_0F: .db 2,"0F",6,$1C,6,"1/",$DB,0
 
 r_rand:
 .dw 2,m_05,m_06
