@@ -1,6 +1,4 @@
 ;Floatlib, a Z80 floating point library in an App
-#define iconstx xconsti
-
 #include "../z80float/single/single.inc"
 #include "../z80float/extended/float.inc"
 _PutS       = 450Ah
@@ -149,4 +147,4 @@ extfloats:
 
 .echo "Total:",$-4000h," bytes"
 
-.echo "Bytes left : ", $8000-$
+.echo "Bytes left : ", $8000-$-96
