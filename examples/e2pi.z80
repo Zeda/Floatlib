@@ -1,8 +1,10 @@
 _PutS   = 450Ah
 #include "header.z80"
-    call iconstSingle \ .db 0   ;load the pointer for pi
-    ex de,hl                    ;Now DE is the pointer to pi
-    call iconstSingle \ .db 1   ;Now HL is the pointer to e
+    ld a,_pi
+    call constSingle;load the pointer for pi
+    ex de,hl        ;Now DE is the pointer to pi
+    ld a,_e
+    call constSingle;Now HL is the pointer to e
     ld bc,scrap     ;Don't need to keep it, so store it back to scrap
     call powSingle  ;e^pi
     ld h,b          ;The result is pointed to by BC
