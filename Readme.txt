@@ -7,6 +7,13 @@ Check out this project on GitHub! : https://github.com/Zeda/Floatlib
 Devices
     This app works on the TI-83+, TI-84+, TI-83+SE, TI-84+SE, TI-84+pocket.fr
 
+Installation
+    In the `bin` folder is an app, Floatlib_APP.8xk. Using your favorite linking
+  software, send it to your calc.
+
+    For those using the AsmComp program, floatequ.8xv has equates for constants
+  and jumptable offsets.
+
 What is this?
     This app contains a library of third party Z80 floating point routines.
   The routines are sourced from the z80float project (https://github.com/Zeda/z80float),
