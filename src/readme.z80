@@ -366,7 +366,7 @@ m_10: .db 1 \ .dw jumptable+324 \ .db "mov4",0,0
 m_11: .db 1 \ .dw jumptable+327 \ .db "mov10",0,0
 m_12: .db 1 \ .dw jumptable+330 \ .db "swap xOP2 and xOP3",0,0
 m_13: .db 1 \ .dw jumptable+3 \ .db "pushpop, restores regs on RET",0,0
-m_14: .db 1 \ .dw jumptable+333 \ .db "di, restores interrupts on RET",0,0
+m_14: .db 1 \ .dw jumptable+333 \ .db "di, restore ints on RET",0,0
 
 
 locations:
@@ -559,9 +559,9 @@ rs_2B: .db 1 \ .dw jumptable+120 \ .db "x/17",$1C,"z",0,0
 rs_2C: .db 1 \ .dw jumptable+123 \ .db "x/15",$1C,"z",0,0
 rs_2D: .db 1 \ .dw jumptable+126 \ .db "x/5",$1C,"z",0,0
 rs_2E: .db 1 \ .dw jumptable+129 \ .db "x/3",$1C,"z",0,0
-rs_2F: .db 1 \ .dw jumptable+132 \ .db "x*3/8",$1C,"z",0,0
-rs_30: .db 1 \ .dw jumptable+135 \ .db "x*11/32",$1C,"z",0,0
-rs_31: .db 1 \ .dw jumptable+138 \ .db "x*21/512",$1C,"z",0,0
+rs_2F: .db 1 \ .dw jumptable+132 \ .db "3x/8",$1C,"z",0,0
+rs_30: .db 1 \ .dw jumptable+135 \ .db "11x/32",$1C,"z",0,0
+rs_31: .db 1 \ .dw jumptable+138 \ .db "21x/512",$1C,"z",0,0
 
 rs_32: .db 1 \ .dw jumptable+141
 str_34:
@@ -577,7 +577,7 @@ str_37:
   .db "str",$1C,"single",0,0
 rs_36: .db 1 \ .dw jumptable+153
 str_38:
-  .db "float(x",$C1,"TI Float])",$1C,"z",0,0
+  .db "TI(x)",$1C,"float(z)",0,0
 rs_37: .db 1 \ .dw jumptable+156 \ .db "uint8(x)",$1C,"z",0,0
 
 rs_38: .db 1 \ .dw jumptable+336
@@ -598,7 +598,7 @@ c_06: .db 2,"06",6,$1C,6,"0",0
 c_07: .db 2,"07",6,$1C,6,"1",0
 c_08: .db 2,"08",6,$1C,6,"+inf",0
 c_09: .db 2,"09",6,$1C,6,$1A,"inf",0
-c_0A: .db 2,"0A",6,$1C,6,"NAN",0
+c_0A: .db 2,"0A",6,$1C,6,"NaN",0
 
 r_rand:
 .dw 2,m_05,m_06

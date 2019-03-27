@@ -139,6 +139,7 @@ extfloats:
 #include "../z80float/extended/routines/sla64.z80"
 #include "../z80float/extended/routines/rl64.z80"
 #include "../z80float/extended/routines/mov.z80"
+#include "../z80float/extended/routines/x_times_2.z80"
 #include "../z80float/extended/routines.z80"
 ;#include "../z80float/extended/data.z80"
 #include "../z80float/extended/tables.z80"
