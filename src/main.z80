@@ -1,6 +1,23 @@
 ;Floatlib, a Z80 floating point library in an App
 #include "../z80float/single/single.inc"
 #include "../z80float/extended/float.inc"
+curKey  =80F6h
+keyCount=80F7h
+
+gbuf        = 9340h
+_VPutS      = 4561h
+_VPutMap    = 455Eh
+_GrBufCpy   = 486Ah
+_InvertRect = 4D5Fh
+penCol      = 86D7h
+penRow      = 86D8h
+sGrFlags    = 14h
+textWrite   = 7
+flags       =89F0h
+fontFlags     = 32h
+fracDrawLFont = 2
+_GrBufClr     = 4BD0h
+
 _PutS       = 450Ah
 _NewLine    = 452Eh
 _StoAns     = 4ABFh
