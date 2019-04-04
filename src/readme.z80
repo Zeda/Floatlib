@@ -379,8 +379,8 @@ l_03: .db 1 \ .dw xOP4 \ .db "xOP4",0,0
 l_04: .db 1 \ .dw xOP5 \ .db "xOP5",0,0
 l_05: .db 1 \ .dw seed0 \ .db "seed0",0,0
 l_06: .db 1 \ .dw seed1 \ .db "seed1",0,0
-l_07: .db 1 \ .dw z0_32 \ .db "z0_32",0,0
-l_08: .db 1 \ .dw z0_64 \ .db "z0_64",0,0
+l_07: .db 1 \ .dw xOP3+32 \ .db "z2_32",0,0
+l_08: .db 1 \ .dw xOP3+16 \ .db "z0_64",0,0
 ;l_0: .db 1 \ .dw z0_64 \ .db "seed1",0,0
 
 

@@ -2,7 +2,7 @@
 
 cd src
 echo -e "\e[1m\e[37mAssembling App\e[0m"
-spasm -Disapp -Dfast main.z80 ../bin/Floatlib_APP.8xk
+spasm -Disapp -Dfast main.z80 ../bin/Floatlib_APP.8xk -I ../z80float/single -I ../z80float/extended
 cd ..
 #echo -e "\e[1m\e[37mAssembling ASMComp Equate File\e[0m"
 #python asmcompify.py
