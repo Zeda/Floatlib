@@ -90,8 +90,9 @@ endwhile:
     res 7,h
     ld bc,-$4002
     add hl,bc
-    jr nc,startwhile
-  pop af
+  pop hl
+  ld a,h
+  jr nc,startwhile
 #else
     fadd(zx2,zy2,tmp)
     ;fcmp(tmp,four)
@@ -105,11 +106,12 @@ plotcalc:
     or a            ;plot the pixel if counter reached zero
     ld a,(mask)
     ld hl,(bufptr)
-    jr nz,$+5
-    or (hl)
-    jr $+4
+    jr z,+_
     cpl
     and (hl)
+    .db $FE   ;start of `cp *`
+_:
+    or (hl)
     ld (hl),a
     out (17),a
     ld de,12
